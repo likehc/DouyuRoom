@@ -8,10 +8,9 @@
 		"48":"ico/icon.png"		//扩展程序管理里面的图标
 	},
 	"content_scripts":[{
-		"js": ["js/content_scripts.js"],	//要注入的js
+		"js": ["js/BaseJs/jquery.min.js","js/removeRoom.js","js/content_scripts.js"],	//要注入的js
 		"matches": ["https://www.douyu.com/*"],	//满足这里的页面方能注入js
 		"run_at": "document_idle",
 		"all_frames":true
 	}]
 }
-//123
