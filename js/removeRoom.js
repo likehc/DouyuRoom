@@ -1,3 +1,16 @@
+
+//存放微信区的房间数组
+var wxRoomArr=[
+	new Room(1144379,"我是过滤说明"),
+	new Room(4289572,"我也是")
+];
+//仅有QQ区房间id
+var qqRoomIdArr=[
+	988,2207607
+];
+
+
+
 /*
 Room 类名
 _id	房间id
@@ -11,15 +24,6 @@ function Room(_id,_des) {
 		this.des = _des;
 	}	
 };
-//存放微信区的房间数组
-var wxRoomArr=[
-	new Room(1144379,"我是过滤说明"),
-	new Room(4289572,"我也是")
-];
-//仅有QQ区房间id
-var qqRoomIdArr=[
-	988,2207607
-];
 //存放QQ区的房间数组
 var qqRoomArr=[];
 for (var i = 0; i < qqRoomIdArr.length; i++) {	

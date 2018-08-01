@@ -10,7 +10,7 @@
 	"content_scripts":[{
 		"js": [
 			"js/BaseJs/jquery.min.js",
-			"js/BaseJs/RoomObj.js",			
+			"js/BaseJs/RoomObj.js",
 			"js/removeRoom.js",
 			"js/paizidanmu.js",
 			"js/content_scripts.js"
@@ -18,5 +18,13 @@
 		"matches": ["https://www.douyu.com/*"],	//满足这里的页面方能注入js
 		"run_at": "document_start",
 		"all_frames":true
-	}]
+	}],
+	"permissions": [
+		"webRequest",
+		"webRequestBlocking",
+		"<all_urls>"
+	],
+	"background": {
+		"scripts": ["js/BaseJs/background.js"]
+	}
 }
