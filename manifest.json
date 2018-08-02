@@ -13,8 +13,7 @@
 			"js/BaseJs/RoomObj.js",
 			"js/removeRoom.js",
 			"js/paizidanmu.js",
-			"js/removeAds.js",
-			"js/content_scripts.js"
+			"js/removeAds.js"
 		],	//要注入的js
 		"matches": ["https://www.douyu.com/*"],	//满足这里的页面方能注入js
 		"run_at": "document_start",
