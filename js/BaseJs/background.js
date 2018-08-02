@@ -12,8 +12,13 @@ var blockUrls =[
 	"https://shark.douyucdn.cn/app/douyu/res/com/*.jpg?*",	//斗鱼公会
 	"https://shark.douyucdn.cn//app/douyu/res/page/room-normal/clientdown/*.png?*",	//客户端下载页图片
 
+	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js?v*",
+
 ];
 var callback =function(details){
+	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js")>-1) {
+		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/mod-all1.js")};
+	}
 	if (blockUrls.length<=0 || blockUrls[0] == "" || blockUrls[0] == null) {
 		return {cancel: false};
 	}

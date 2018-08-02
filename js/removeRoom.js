@@ -1,12 +1,12 @@
 
 //存放微信区的房间数组
 var wxRoomArr=[
-	new Room(1144379,"我是过滤说明"),
-	new Room(4289572,"我也是")
+	new Room(0,"我是过滤说明"),
+	
 ];
 //仅有QQ区房间id
 var qqRoomIdArr=[
-	988,2207607
+	0,
 ];
 
 

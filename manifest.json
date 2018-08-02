@@ -13,7 +13,8 @@
 			"js/BaseJs/RoomObj.js",
 			"js/removeRoom.js",
 			"js/paizidanmu.js",
-			"js/removeAds.js"
+			"js/removeAds.js",
+			"js/treasureBox.js"
 		],	//要注入的js
 		"matches": ["https://www.douyu.com/*"],	//满足这里的页面方能注入js
 		"run_at": "document_start",
@@ -26,5 +27,6 @@
 	],
 	"background": {
 		"scripts": ["js/BaseJs/background.js"]
-	}
+	},
+	"web_accessible_resources":["js/RedirectJs/mod-all1.js"]
 }
