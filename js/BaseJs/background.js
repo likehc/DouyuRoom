@@ -2,6 +2,7 @@
 var blockUrls =[
 	"https://sta-op.douyucdn.cn/nggsys/*.jpg",	// 视频框内游戏推广
 	"https://sta-op.douyucdn.cn/nggsys/*.png",	// 视频框内游戏推广
+	"https://sta-op.douyucdn.cn/vod-cover/*.jpeg",	//视频推荐 房间预览
 	"https://shark.douyucdn.cn/app/douyu/res/page/*.gif",	//源图片出错预备图
 	"https://cs-op.douyucdn.cn/nggsys/*.jpg",	//其它游戏推广
 	"https://cs-op.douyucdn.cn/nggsys/*.png",	//其它游戏推广	
@@ -10,6 +11,7 @@ var blockUrls =[
 	"http://image.wan.douyu.com/upload/*.png",	//个人说明里的游戏推广
 	"https://shark.douyucdn.cn/app/douyu/res/com/*.jpg?*",	//斗鱼公会
 	"https://shark.douyucdn.cn//app/douyu/res/page/room-normal/clientdown/*.png?*",	//客户端下载页图片
+
 ];
 var callback =function(details){
 	if (blockUrls.length<=0 || blockUrls[0] == "" || blockUrls[0] == null) {

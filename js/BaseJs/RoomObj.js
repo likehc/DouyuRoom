@@ -1,9 +1,13 @@
 function RoomObj() {
 	//获取房间id
 	this.getRoomId = function () {
-		var roomUrl = $("link[rel='canonical']")[0].href;
-		var roomUrlArr = roomUrl.split("/");
-		return roomUrlArr[3];
+		try{
+			var roomUrl = $("link[rel='canonical']")[0].href;
+			var roomUrlArr = roomUrl.split("/");
+			return roomUrlArr[3];
+		}catch(err){
+			return "";
+		}		
 	};
 	//点击"未佩戴"
 	this.removePaiZi=function () {
