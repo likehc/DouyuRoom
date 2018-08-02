@@ -20,6 +20,7 @@ function removeAds() {
 //进行一些页面排版修改
 function youhua() {
 	$("#header").hide();	//隐藏头部
+	setFont();
 	$("#header").css("border-bottom-width","0px");
 	$("#mainbody").css("margin-top","0px");	//"50px"
 	$("#mainbody").css("padding-top","0px");	//"20px"
@@ -67,6 +68,7 @@ function delayInset() {
 	a.setAttribute("id","headInfoId");
 	document.getElementsByClassName("r-else clearfix")[0].appendChild(a);
 	document.getElementById("headInfoId").onclick = function(){
+		setFont();
 		var headInfo =$("#headInfoId");
 		if (headInfo.text() == "显示头部信息") {
 			headInfo.text("隐藏头部信息");
@@ -98,6 +100,11 @@ function delayInset() {
 		}
 	};
 };
+// 斗鱼的其他js，触发一些事件会修改回原来的字体样式,所以放在了点击状况信息时，修改一次字体
+function setFont() {
+	$(".cs-textarea").css("font-size","14px"); //文字输入区  字体
+	$(".cs-textarea").css("font-weight","bold");//文字输入区  字体加粗
+}
 $(document).ready(function(){
 	if (roomObj.getRoomId() =="") {
 		return;
