@@ -12,6 +12,10 @@ function removeAds() {
 		$(".sq-wrap").remove();	//分享按钮
 		$(".column.rec").remove();	//主播也爱看
 		$(".ft-sign-cont").remove();	//任务区,网页游戏推广
+		$(".bg-1a1f33").remove();	//亲密互动
+		$(".focus_box_con-0797e0").remove();	//视频里右下角“关注”按钮
+		$("div[data-component-id='view'][data-component-key='2']").remove(); //头部大幅广告
+		$(".live-room.clearfix").css("padding-top","0px");	//头部大幅广告
 
 		$(".showdanmu-f76338").click();	//关闭弹幕
 		removeAdsIndex++;
