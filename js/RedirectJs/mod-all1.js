@@ -10555,7 +10555,7 @@ var svgaLib = function (e) {
                     mouseenter: function () {
                         e.config.isTreasureHover = !0
                     }, mouseleave: function () {
-                        e.config.isTreasureHover = !1
+                        e.config.isTreasureHover = !0
                     }
                 })
             }, drawTreasure: function () {

@@ -1,4 +1,12 @@
 function RoomObj() {
+	//获取房间信息
+	this.getRoomInfoById = function (roomId) {
+		var r="";
+		$.ajax({url:"https://bird.ioliu.cn/v1?url=http://open.douyucdn.cn/api/RoomApi/room/" +roomId ,async: false,success:function(result){
+			r =result;
+		}});
+		return r;
+	};
 	//获取房间id
 	this.getRoomId = function () {
 		try{
@@ -68,3 +76,31 @@ function RoomObj() {
 	};
 };
 var roomObj = new RoomObj();
+
+/*通用方法
+* t 为开始时间，格式xx-xx-xx xx:xx:xx
+*/
+RoomObj.getEquationOfTime = function (t) {
+	var date1=new Date(t);	//开始时间 
+	var date2=new Date();	//结束时间
+	var date3=date2.getTime()-date1.getTime();	//时间差的毫秒数
+	var days=Math.floor(date3/(24*3600*1000));
+	var leave1=date3%(24*3600*1000);	//计算天数后剩余的毫秒数
+	var hours=Math.floor(leave1/(3600*1000));
+	hours = (days*24)+hours >10 ? hours:"0"+hours;	//计算相差分钟数
+	var leave2=leave1%(3600*1000);	//计算小时数后剩余的毫秒数
+	var minutes=Math.floor(leave2/(60*1000));
+	minutes = minutes>10 ? minutes:"0"+minutes;	//计算相差秒数
+	var leave3=leave2%(60*1000);	//计算分钟数后剩余的毫秒数
+	var seconds=Math.round(leave3/1000);
+	seconds = seconds>10 ? seconds:"0"+seconds;
+	return hours+":"+minutes+":"+seconds;
+}
+
+/*
+* 	发送弹幕
+*/
+RoomObj.sendMsg = function (s) {
+	document.getElementsByClassName('cs-textarea')[0].value = s;
+	document.getElementsByClassName('b-btn')[0].click();
+}

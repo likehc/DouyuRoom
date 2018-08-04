@@ -11,16 +11,13 @@ var blockUrls =[
 	"http://image.wan.douyu.com/upload/*.png",	//个人说明里的游戏推广
 	"https://shark.douyucdn.cn/app/douyu/res/com/*.jpg?*",	//斗鱼公会
 	"https://shark.douyucdn.cn//app/douyu/res/page/room-normal/clientdown/*.png?*",	//客户端下载页图片
+	"https://hm.baidu.com/hm*",	//百度代码统计
 
-	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js?v*",
-
+	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js?v*",	//用于替换本地js
 ];
 var callback =function(details){
 	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js")>-1) {
 		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/mod-all1.js")};
-	}
-	if (blockUrls.length<=0 || blockUrls[0] == "" || blockUrls[0] == null) {
-		return {cancel: false};
 	}
 	return {cancel: true};
 };
