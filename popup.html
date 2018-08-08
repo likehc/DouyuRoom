@@ -1,0 +1,52 @@
+﻿<html>
+	<head>
+		<meta charset="UTF-8">
+		<style>
+			body {
+				min-width: 105px;
+				overflow-x: hidden;
+			}
+			summary{
+				cursor:pointer;
+				font-size: 14px;
+			}
+			details summary:hover{ font-size: 16px;}
+			a:hover{
+				text-decoration:none;
+				font-weight:bold;
+			}
+
+			li:hover{
+				text-decoration:none;
+				font-weight:bold;
+			}
+			ul{margin:15;padding:0} 
+			li{ list-style:none; }
+		</style>
+	 
+	</head>
+	<body>
+		<details class="menu">
+				<summary>选项1</summary>
+				<ul margin:0px;padding:0px;>
+						<p><li><input type="checkbox" id="" />占位符</li></p>
+				</ul>
+		</details>
+		<details class="menu" open>	    
+			<summary>选项2</summary>
+			<div id ="roomfilterp">
+				<li>
+					<input type="text" name="fname" id="roomfiltertext" placeholder="原因(可以空)" />
+				</li>
+				<li>				
+					<input type="checkbox" id="roomfilterchk" />是否过滤
+				</li>
+			</div>
+			
+		</details>
+	</body>
+	 <script src="js/BaseJs/jquery.min.js"></script>
+	 <script src="js/BaseJs/popup.js"></script>
+</html>
+
+

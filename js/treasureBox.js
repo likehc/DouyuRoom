@@ -25,16 +25,20 @@ function getBoxInfo() {
 };
 function doTreasure() {
 	$(".live-room-normal-right.fl").remove();	//删除直播公告
+	$("#js-fans-rank").remove();	//粉丝贡献榜
+	$("#js-chat-cont").css("top","2px");	//升高弹幕区
+	$(".giftbatter-box ").remove();	//礼物特效
 	$(".shie-gift").remove();	//屏蔽特效
 	//HTML5 播放器▽▽▽	
 	$(".pause-81a5c3").click();	//暂停视频
 	//HTML5 播放器△△△
 	//flash 播放器▽▽▽
+	$("#douyu_room_flash_proxy").remove();//	移除播放区域
 	//flash 播放器△△△
 }
 
 $(document).ready(function(){
 	roomId = roomObj.getRoomId();
 	if (roomId =="") {return}	
-	var boxInfoTimer=setTimeout("getBoxInfo()",7000);
+	var boxInfoTimer=setTimeout("getBoxInfo()",8000);
 });

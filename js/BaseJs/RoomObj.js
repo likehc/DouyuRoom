@@ -19,48 +19,58 @@ function RoomObj() {
 	};
 	//点击"未佩戴"
 	this.removePaiZi=function () {
-		if ($(".radiobox").length<=0 ) {
-			var label =document.createElement("label");
-			label.setAttribute("class","radiobox");
-			var fansHasDiv =document.createElement("div");
-			fansHasDiv.setAttribute("class","fans-has-badge nowear-badge");
-			fansHasDiv.setAttribute("data-tag","fans-medal-item");
-			fansHasDiv.setAttribute("data-flag","medal-take-off");
-			fansHasDiv.appendChild(label);
-			var entranceDiv =document.createElement("div");
-			entranceDiv.setAttribute("class","entrance-select");
-			entranceDiv.setAttribute("data-flag","medal-list-warp");
-			entranceDiv.appendChild(fansHasDiv);
-			var contentDiv =document.createElement("div");
-			contentDiv.setAttribute("id","tempRemovePaizi");
-			contentDiv.setAttribute("class","entrance-content fans-badge-second");
-			contentDiv.setAttribute("style","display: none;");
-			contentDiv.setAttribute("data-flag","medal-info-warp");
-			contentDiv.appendChild(entranceDiv);
-			document.getElementsByClassName("fans-entrance")[0].appendChild(contentDiv);  
+		try{
+			if ($(".radiobox").length<=0 ) {
+				var label =document.createElement("label");
+				label.setAttribute("class","radiobox");
+				var fansHasDiv =document.createElement("div");
+				fansHasDiv.setAttribute("class","fans-has-badge nowear-badge");
+				fansHasDiv.setAttribute("data-tag","fans-medal-item");
+				fansHasDiv.setAttribute("data-flag","medal-take-off");
+				fansHasDiv.appendChild(label);
+				var entranceDiv =document.createElement("div");
+				entranceDiv.setAttribute("class","entrance-select");
+				entranceDiv.setAttribute("data-flag","medal-list-warp");
+				entranceDiv.appendChild(fansHasDiv);
+				var contentDiv =document.createElement("div");
+				contentDiv.setAttribute("id","tempRemovePaizi");
+				contentDiv.setAttribute("class","entrance-content fans-badge-second");
+				contentDiv.setAttribute("style","display: none;");
+				contentDiv.setAttribute("data-flag","medal-info-warp");
+				contentDiv.appendChild(entranceDiv);
+				document.getElementsByClassName("fans-entrance")[0].appendChild(contentDiv);  
+			}
+			document.getElementsByClassName("radiobox")[document.getElementsByClassName("radiobox").length-1].click();
+			document.getElementById("tempRemovePaizi").remove();			
+		}catch(err){
+			//catchCode
+			
 		}
-		document.getElementsByClassName("radiobox")[document.getElementsByClassName("radiobox").length-1].click();
-		document.getElementById("tempRemovePaizi").remove();	
+		
 	};
 	//点击相应的牌子
 	this.addPaiZi=function (roomId) {
-		var a =document.createElement("a");
-		a.setAttribute("href","javascript:;");
-		a.setAttribute("data-flag","medal-get-use");
-		a.setAttribute("data-medal-rid",roomId);
-		a.setAttribute("class","adornbtn");
-		var p =document.createElement("p");
-		p.appendChild(a);
-		var tipswrapDiv =document.createElement("div");
-		tipswrapDiv.setAttribute("id","tempAddPaizi");
-		tipswrapDiv.setAttribute("class","entrance-tipswrap");
-		tipswrapDiv.setAttribute("data-action","medal-tip-warp");
-		tipswrapDiv.setAttribute("data-tip-type","ownerRoomMedalRemain");
-		tipswrapDiv.setAttribute("style","display: block;");
-		tipswrapDiv.appendChild(p);
-		document.getElementsByClassName("fans-entrance")[0].appendChild(tipswrapDiv);
-		document.getElementsByClassName("adornbtn")[0].click();
-		document.getElementById("tempAddPaizi").remove();
+		try{
+			var a =document.createElement("a");
+			a.setAttribute("href","javascript:;");
+			a.setAttribute("data-flag","medal-get-use");
+			a.setAttribute("data-medal-rid",roomId);
+			a.setAttribute("class","adornbtn");
+			var p =document.createElement("p");
+			p.appendChild(a);
+			var tipswrapDiv =document.createElement("div");
+			tipswrapDiv.setAttribute("id","tempAddPaizi");
+			tipswrapDiv.setAttribute("class","entrance-tipswrap");
+			tipswrapDiv.setAttribute("data-action","medal-tip-warp");
+			tipswrapDiv.setAttribute("data-tip-type","ownerRoomMedalRemain");
+			tipswrapDiv.setAttribute("style","display: block;");
+			tipswrapDiv.appendChild(p);
+			document.getElementsByClassName("fans-entrance")[0].appendChild(tipswrapDiv);
+			document.getElementsByClassName("adornbtn")[0].click();
+			document.getElementById("tempAddPaizi").remove();			
+		}catch(err){
+			// class ="fans-entrance" ,没有加载完毕时,会出错
+		}		
 	};
 	//设置弹幕颜色
 	this.setDanMuYanSe=function () {
@@ -104,3 +114,17 @@ RoomObj.sendMsg = function (s) {
 	document.getElementsByClassName('cs-textarea')[0].value = s;
 	document.getElementsByClassName('b-btn')[0].click();
 }
+
+/* 
+*	与后台通讯方法
+*	_msgType 判断方法法。 eg.{type:"function",functionName:"getRooms"}
+*	obj 存放返回值的对象。
+*/
+RoomObj.getDataFormBackground = function(_msgType,obj) {	
+	chrome.runtime.sendMessage(
+		_msgType,
+		function(response) {
+			obj.data = response;
+		}
+	);
+};

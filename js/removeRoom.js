@@ -1,50 +1,24 @@
-
-//存放微信区的房间数组
-var wxRoomArr=[
-	new Room(0,"我是过滤说明"),
-	
-];
-//仅有QQ区房间id
-var qqRoomIdArr=[
-	0,
-];
-
-
-
-/*
-Room 类名
-_id	房间id
-_des 说明
-*/
-function Room(_id,_des) {
-	this.id = _id;
-	if (_des == undefined) {
-		this.des ="打的QQ区";
-	}else{
-		this.des = _des;
-	}	
-};
-//存放QQ区的房间数组
-var qqRoomArr=[];
-for (var i = 0; i < qqRoomIdArr.length; i++) {	
-	qqRoomArr.push(new Room(qqRoomIdArr[i]));
+//从bg.js获取要过滤的房间数组
+var roomObjArr = new Object;
+if (roomObjArr.data == undefined) {	//从 localStorage.RoomArr 获取要过滤的房间
+	RoomObj.getDataFormBackground({type:"function",functionName:"getRooms"},roomObjArr);
 }
-
-//合并微信与QQ区的房间数组
-var RoomArr = wxRoomArr.concat(qqRoomArr);
-
 // 10秒过滤一次，因为无刷新更新页面，下次刷新会继续过滤
-var removeRoomTimer=setInterval(function(){	
+var removeRoomTimer=setInterval(function(){
 	if (window.location.href == "https://www.douyu.com/g_wzry") {
+		$("#left").remove();	//左侧快栏
 		var roomIdArr = $("#live-list-contentbox li");
 		for (var j = 0; j < roomIdArr.length; j++) {
 			var dataRid = roomIdArr[j].getAttribute("data-rid");
+			var RoomArr =roomObjArr.data;
 			for (var k = 0; k < RoomArr.length; k++) {
 				if (RoomArr[k].id == dataRid) {
 					roomIdArr[j].remove();
 					break;
-				}				
+				}
 			}
 		}
+	}else{
+		window.clearInterval(removeRoomTimer);
 	}	
 },10000);

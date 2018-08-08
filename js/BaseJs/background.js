@@ -1,3 +1,27 @@
+/*
+*	Room 类名
+*	_id	房间id
+*	_des 说明
+*/
+function Room(_id,_des) {
+	this.id = _id;
+	if (_des == undefined) {
+		this.des ="打的QQ区";
+	}else{
+		this.des = _des;
+	}	
+};
+function newRoom(_id,_des) {
+	if (_des!="") {
+		return new Room(_id,_des);
+	}else{
+		return new Room(_id);
+	}
+};
+//共用变量
+var exId;	//扩展程序id
+var tabId;	//当前tab id
+
 // https://rpic.douyucdn.cn/asrpic/*.jpg // 房间外显图片一定别阻止
 var blockUrls =[
 	"https://sta-op.douyucdn.cn/nggsys/*.jpg",	// 视频框内游戏推广
@@ -24,3 +48,53 @@ var callback =function(details){
 var filter = {urls:blockUrls};
 var opt_extraInfoSpec = ["blocking"];
 chrome.webRequest.onBeforeRequest.addListener(callback, filter, opt_extraInfoSpec);
+
+/*
+*	_room为Room的实例,必包含Id
+*	_isAdd 为true时，则为新增，为空时则删除，默认为undefined
+*/
+function addRooms(_room,_isAdd) {	
+	var roomObjArr = localStorage.RoomArr==undefined? []:JSON.parse(localStorage.RoomArr);
+	if (_isAdd == true) {		
+		roomObjArr.push(_room);
+		var RoomsStr =JSON.stringify(roomObjArr);
+		localStorage.RoomArr =RoomsStr;
+	}else{
+		for (var i = roomObjArr.length - 1; i >= 0; i--) {
+			if (roomObjArr[i].id == _room.id ) {
+				 roomObjArr.splice(i, 1);
+				 break;
+			}
+		}
+		var RoomsStr =JSON.stringify(roomObjArr);
+		localStorage.RoomArr =RoomsStr;
+	}
+};
+function getRooms(){
+	return localStorage.RoomArr==undefined? []:JSON.parse(localStorage.RoomArr);
+};
+
+/*
+*	如果没有相应的结果,则返回null
+*/
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
+	exId=sender.id;
+	if (sender.hasOwnProperty("tab")){tabId=sender.tab.id}else{return}; //点击扩展时,也会激活此事件
+	var result;
+	if (message.type =="function") {
+		switch(message.functionName){
+			case "getRooms":
+				result= getRooms();
+				break;
+			case "getSender":
+				result = sender;
+				break;
+		}	
+	}		
+	// setTimeout(function(){
+	// 	sendResponse(result);
+	// },400);
+	//return true;
+	sendResponse(result);	
+});

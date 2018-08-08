@@ -4,13 +4,14 @@
 	"description": "斗鱼房间的一些优化",
 	"version": "1.0.0",
 	"icons":{
-		"16":"ico/icon.png",	//扩展在浏览器右上图标
+		"16":"ico/icon.png",	
 		"48":"ico/icon.png"		//扩展程序管理里面的图标
 	},
 	"content_scripts":[{
 		"js": [
 			"js/BaseJs/jquery.min.js",
 			"js/BaseJs/RoomObj.js",
+			"js/BaseJs/onmessage.js",
 			"js/removeRoom.js",
 			"js/paizidanmu.js",
 			"js/removeAds.js",
@@ -28,5 +29,12 @@
 	"background": {
 		"scripts": ["js/BaseJs/background.js"]
 	},
-	"web_accessible_resources":["js/RedirectJs/mod-all1.js"]
+	"browser_action": {
+		"default_icon": "ico/icon.png",//扩展在浏览器右上图标
+		"default_popup": "popup.html"
+	},
+	"web_accessible_resources":[
+		"js/RedirectJs/mod-all1.js",
+		"js/content_scripts.js"
+	]
 }
