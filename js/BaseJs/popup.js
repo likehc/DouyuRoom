@@ -15,7 +15,7 @@ var roomId="";
 var bg = chrome.extension.getBackgroundPage();
 
 window.onload =function(){
-	document.getElementById("roomfilterchk").onclick  = function(){
+	document.getElementById("roomfilterchk").onclick = function(){
 		try{
 			if(this.checked) {
 				var des = $("input[id='roomfiltertext']").val();
@@ -60,6 +60,7 @@ setTimeout(function(){
 },150);
 
 function delayDo() {
+	//初始化是否过滤的信息
 	var removedRoom = roomRemoved(roomId);
 	var roomfilterchk = document.getElementById("roomfilterchk");
 	if (roomId =="" ||roomId ==undefined) {
@@ -69,5 +70,5 @@ function delayDo() {
 	if(removedRoom != undefined){	
 		roomfilterchk.checked = true;
 		$("input[id='roomfiltertext']").val(removedRoom.des);
-	}
+	}	
 }

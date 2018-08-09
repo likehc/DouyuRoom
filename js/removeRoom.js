@@ -21,4 +21,4 @@ var removeRoomTimer=setInterval(function(){
 	}else{
 		window.clearInterval(removeRoomTimer);
 	}	
-},10000);
+},3000);

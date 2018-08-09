@@ -1,8 +1,13 @@
 var roomId="";
+var treasureMsg ;
+if (treasureMsg == undefined) {	//从 localStorage.RoomArr 获取要过滤的房间
+	RoomObj.getDataFormBackground({type:"function",functionName:"getTreasureMsg"},treasureMsg);
+}
 function getBoxInfo() {
 	try{
 		if ($("#treasure").css("display") == "block") { //有无宝箱, "none"无，  "block"有
-			RoomObj.sendMsg("6666");	//听说发个弹幕,能提高中奖率
+			treasureMsg = treasureMsg || '666';  //如果获取清
+			RoomObj.sendMsg(treasureMsg);	//听说发个弹幕,能提高中奖率
 			doTreasure();
 			var openBoxTimer=setInterval(function(){
 				if($(".js-danmu-reconnect.highLight").text()=="点击重新连接弹幕"){	//此页面已在别处打开
@@ -20,7 +25,7 @@ function getBoxInfo() {
 				}
 			},800);
 		}
-	}catch(err){		
+	}catch(err){
 	}
 };
 function doTreasure() {
@@ -39,6 +44,6 @@ function doTreasure() {
 
 $(document).ready(function(){
 	roomId = roomObj.getRoomId();
-	if (roomId =="") {return}	
+	if (roomId =="") {return}
 	var boxInfoTimer=setTimeout("getBoxInfo()",8000);
 });

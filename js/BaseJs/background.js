@@ -70,10 +70,20 @@ function addRooms(_room,_isAdd) {
 		localStorage.RoomArr =RoomsStr;
 	}
 };
+function setLocalStorage(key,value) {
+	localStorage[key]=value;
+}
+function getLocalStorage(key) {
+	return localStorage[key];
+}
+
 function getRooms(){
-	return localStorage.RoomArr==undefined? []:JSON.parse(localStorage.RoomArr);
+	return (localStorage.RoomArr==undefined||localStorage.RoomArr=="")?[]:JSON.parse(localStorage.RoomArr);
 };
 
+function getTreasureMsg(){
+	return (localStorage.treasureMsg==undefined||localStorage.treasureMsg=="")?[]:localStorage.treasureMsg;
+};
 /*
 *	如果没有相应的结果,则返回null
 */

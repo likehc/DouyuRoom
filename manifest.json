@@ -33,6 +33,7 @@
 		"default_icon": "ico/icon.png",//扩展在浏览器右上图标
 		"default_popup": "popup.html"
 	},
+	"options_page": "options.html",
 	"web_accessible_resources":[
 		"js/RedirectJs/mod-all1.js",
 		"js/content_scripts.js"
