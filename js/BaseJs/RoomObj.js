@@ -20,7 +20,7 @@ function RoomObj() {
 	//点击"未佩戴"
 	this.removePaiZi=function () {
 		try{
-			if ($(".radiobox").length<=0 ) {
+			if (document.getElementsByClassName("radiobox").length<=0 ) {
 				var label =document.createElement("label");
 				label.setAttribute("class","radiobox");
 				var fansHasDiv =document.createElement("div");
@@ -118,13 +118,16 @@ RoomObj.sendMsg = function (s) {
 /* 
 *	与后台通讯方法
 *	_msgType 判断方法法。 eg.{type:"function",functionName:"getRooms"}
-*	obj 存放返回值的对象。
+*	_obj 存放返回值的对象。
 */
-RoomObj.getDataFormBackground = function(_msgType,obj) {	
+RoomObj.getDataFormBackground = function(_msgType,_obj) {
 	chrome.runtime.sendMessage(
 		_msgType,
 		function(response) {
-			obj.data = response;
+			try{
+				_obj.data = response;
+			}catch(err){
+			}
 		}
 	);
 };

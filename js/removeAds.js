@@ -5,6 +5,7 @@ function removeAds() {
 	var removeAdsTimer=self.setInterval(function(){		
 		if (removeAdsIndex>=10) {
 			window.clearInterval(removeAdsTimer);
+			return;
 		}
 		youhua();
 		delayInset();
@@ -30,8 +31,10 @@ function removeAds() {
 };
 //进行一些页面排版修改
 function youhua() {
-	$("#header").hide();	//隐藏头部
 	setFont();
+	$("#header").hide();	//隐藏头部	
+	$(".adsRoot_7c5z4").remove();	//视频框内广告
+	$(".valentine1807").remove();	//删除七夕广告
 	$(".noble-barrage-suspend ul").remove();	//删除贵族悬浮弹幕
 	$(".big-gift-banner").remove();	//礼物特效
 	$("#dialog-more-video").remove();	//直播结束，自动跳转

@@ -5,7 +5,7 @@ if (roomObjArr.data == undefined) {	//从 localStorage.RoomArr 获取要过滤�
 }
 // 10秒过滤一次，因为无刷新更新页面，下次刷新会继续过滤
 var removeRoomTimer=setInterval(function(){
-	if (window.location.href == "https://www.douyu.com/g_wzry") {
+	if ($("#live-list-contentbox").length >0) {
 		$("#left").remove();	//左侧快栏
 		var roomIdArr = $("#live-list-contentbox li");
 		for (var j = 0; j < roomIdArr.length; j++) {
