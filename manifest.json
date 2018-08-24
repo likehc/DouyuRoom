@@ -37,7 +37,7 @@
 	},
 	"options_page": "options.html",
 	"web_accessible_resources":[
-		"js/RedirectJs/mod-all1.js",
-		"js/content_scripts.js"
-	]
+		"js/RedirectJs/*"
+	],
+	"content_security_policy":"script-src 'self' 'unsafe-eval'; object-src 'self'"	//安全策略,引用其他js(vue.js)
 }

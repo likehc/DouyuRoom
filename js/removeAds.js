@@ -1,8 +1,8 @@
 var removeAdsIndex =0;
-var roomId="";
+var roomId=0;
 var roomInfo="";
 function removeAds() {
-	var removeAdsTimer=self.setInterval(function(){		
+	var removeAdsTimer=self.setInterval(function(){
 		if (removeAdsIndex>=10) {
 			window.clearInterval(removeAdsTimer);
 			return;
@@ -10,8 +10,9 @@ function removeAds() {
 		youhua();
 		delayInset();
 		$("#left").remove();	//左边侧栏
+		$("#t-adv-container").remove();	//视频内 广告
 		$(".recommendApp-cbeff7").remove();	//下载斗鱼APP
-		$(".live-room-normal-left").remove();	//视频下方广告
+		$("#js-live-room-normal-equal-left").remove();	//视频下方广告
 		$(".yuba-group-active").remove();	//悬浮主播头像，小组动态
 		$(".recording-wrap").remove();	//TA的视频
 		$(".sq-wrap").remove();	//分享按钮
@@ -24,22 +25,26 @@ function removeAds() {
 		$(".QRcode").remove();	//视频内，二维码 游戏推广
 		$("#js-chat-notice").remove();	//弹幕公告
 		$(".chat-ad").remove();	// 关闭弹幕区内广告		
+		$(".adsRoot_7c5z4").remove();	//视频框内广告
+		$(".valentine1807").remove();	//删除七夕广告
+		$("#canyonRace").remove();	//暑期峡谷福利战
+		$(".noble-barrage-suspend ul").remove();	//删除贵族悬浮弹幕
+		$(".big-gift-banner").remove();	//礼物特效
+		$("#dialog-more-video").remove();	//直播结束，自动跳转
+		$(".normalBg-dc300b").remove(); //亲密互动
+		$(".starsgathered").remove();	//排名动态
+
 
 		$(".showdanmu-f76338").click();	//关闭弹幕
 		removeAdsIndex++;
 	},1000);
 };
+
 //进行一些页面排版修改
 function youhua() {
 	setFont();
-	$("#header").hide();	//隐藏头部	
-	$(".adsRoot_7c5z4").remove();	//视频框内广告
-	$(".valentine1807").remove();	//删除七夕广告
-	$(".noble-barrage-suspend ul").remove();	//删除贵族悬浮弹幕
-	$(".big-gift-banner").remove();	//礼物特效
-	$("#dialog-more-video").remove();	//直播结束，自动跳转
-	$(".normalBg-dc300b").remove(); //亲密互动
-	$(".starsgathered").remove();	//排名动态
+	$("#header").hide();	//隐藏头部
+	
 	$(".headline h2").attr("title",$(".headline h2").text());	//房间标题
 	$("#header").css("border-bottom-width","0px");
 	$("#mainbody").css("margin-top","0px");	//"50px"
@@ -54,6 +59,8 @@ function youhua() {
 	$("#js-stats-and-actions").css("padding-top","4px");	//"14px"
 	$("#js-stats-and-actions").css("padding-bottom","2px");	//"7px"
 	$("#js-live-room-normal-equal-right").css("margin-top","0px");	//"24px"
+
+	$(".live-room-normal-left").css("padding-top","1px");
 };
 
 function delayInset() {
@@ -118,6 +125,7 @@ function delayInset() {
 			$(".live-room-normal-right.fl").hide();	//直播公告
 			a.innerHTML = "off";
 		}
+		a.setAttribute("style","font-weight:bold");
 		a.setAttribute("href","javascript:;");
 		a.setAttribute("id","roomAnnounceId");
 		a.setAttribute("class","roomAnnounceClass");
@@ -158,14 +166,14 @@ function getRoomInfo() {
 			$(".anchor-pic.fl").attr("title","开播时间:"+ roomInfo.data.start_time);
 		}
 	}
-}
+};
+
 $(document).ready(function(){
 	roomId = roomObj.getRoomId();
-	if (roomId =="") {return}
+	if (roomId ==0) {return}
 	removeAds();
-	//鼠标进入主播头像区域事件
+	// 鼠标进入主播头像区域事件
 	$(".anchor-pic.fl").mouseenter(function(){
 		getRoomInfo();
 	});
 });
-

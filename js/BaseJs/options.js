@@ -43,3 +43,26 @@ var treasureMsg = bg.getTreasureMsg();
 if (treasureMsg != undefined) {
 	$("#treasuretext").val(treasureMsg);
 }
+
+//数据库类型
+var insertType;
+function SaveClick() {	
+  if (insertType !=null &&insertType !=undefined && insertType.constructor == NodeList) {
+    for (var i = 0; i < insertType.length; i++) {
+      if (insertType[i].checked == true) {
+        localStorage.insertType =insertType[i].value;
+        alert('保存成功!');
+      }
+    }
+  };
+};
+$(document).ready(function(){
+	insertType = document.getElementsByName('insertType');
+	document.getElementById('SaveClick').onclick = SaveClick;
+  	//初始化 Radio 的选中值
+	var getTrueRadio =localStorage.insertType;
+	if (getTrueRadio != null && getTrueRadio != undefined) {
+		insertType[getTrueRadio].checked = true;
+	};
+});
+//数据库类型

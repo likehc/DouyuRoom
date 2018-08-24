@@ -1,4 +1,4 @@
-﻿var roomId="";
+﻿var roomId=0;
 var treasureMsg = new Object;
 if (treasureMsg.data == undefined) {	//从 localStorage.RoomArr 获取要过滤的房间
 	RoomObj.getDataFormBackground({type:"function",functionName:"getTreasureMsg"},treasureMsg);
@@ -27,12 +27,13 @@ function getBoxInfo() {
 	}catch(err){
 	}
 };
+
 function doTreasure() {
 	$(".live-room-normal-right.fl").remove();	//删除直播公告
 	$("#js-fans-rank").remove();	//粉丝贡献榜
 	$("#js-chat-cont").css("top","2px");	//升高弹幕区
-	$(".giftbatter-box ").remove();	//礼物特效
-	$(".shie-gift").remove();	//屏蔽特效
+	giftBatterBoxRemove();
+	//$(".shie-gift").remove();	//屏蔽特效
 	//HTML5 播放器▽▽▽	
 	$(".pause-81a5c3").click();	//暂停视频
 	//HTML5 播放器△△△
@@ -48,7 +49,7 @@ $(document).ready(function(){
 			if (roomId =="") {return}
 			return;
 		}
-		roomId = roomObj.getRoomId();		
+		roomId = roomObj.getRoomId();
 		getBoxInfo();
 		if ($("#treasure").css("display") == "block") {
 			window.clearInterval(treasureTimer);
@@ -58,14 +59,25 @@ $(document).ready(function(){
 		treasureTimerIndex++;
 	},1000);
 });
-
+//屏蔽全部特效
+function giftBatterBoxRemove() {
+	//开启
+	if ($("#shie-switch").attr("data-shield-status") !=1) {
+		$("#shie-switch").click();
+	}
+	//关闭
+	if ($("#shie-switch").attr("data-shield-status") !=1) {
+		$("#shie-switch").click();
+	}
+	$("#js-shie-gift").remove();	//礼物特效
+}
 window.addEventListener("message", function(e)
 {
-	if (e.data.hasOwnProperty("insertSql") ) {		
+	if (e.data.hasOwnProperty("insertSql") ) {
 		// console.log(JSON.stringify(e.data));
 		// console.log(e.data);
 		var data = e.data.insertSql;
-		data.roomId = roomId;
+		data.roomId = roomObj.getRoomId();
 		var s =RoomObj.getDataFormBackground({type:"function",functionName:"insertSql",data});
 	}
 }, false);

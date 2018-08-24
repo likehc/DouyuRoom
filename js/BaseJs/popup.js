@@ -11,7 +11,7 @@ function Room(_id,_des) {
 		this.des = _des;
 	}	
 };
-var roomId="";
+var roomId=0;
 var bg = chrome.extension.getBackgroundPage();
 
 window.onload =function(){
@@ -63,7 +63,7 @@ function delayDo() {
 	//初始化是否过滤的信息
 	var removedRoom = roomRemoved(roomId);
 	var roomfilterchk = document.getElementById("roomfilterchk");
-	if (roomId =="" ||roomId ==undefined) {
+	if (roomId ==0 ||roomId ==undefined) {
 		$("#roomfilterp").remove();
 		return;
 	}

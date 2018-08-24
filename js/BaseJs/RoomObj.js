@@ -7,15 +7,21 @@ function RoomObj() {
 		}});
 		return r;
 	};
-	//获取房间id
+	//获取房间id , $ROOM.room_id是引用js加载的，有延迟 
 	this.getRoomId = function () {
 		try{
+			if (window.hasOwnProperty("$ROOM")) {
+				var tRoom = window.$ROOM;
+				if (tRoom.hasOwnProperty("room_id")) {
+					return tRoom.room_id;
+				}
+			}
 			var roomUrl = $("link[rel='canonical']")[0].href;
 			var roomUrlArr = roomUrl.split("/");
 			return roomUrlArr[3];
 		}catch(err){
-			return "";
-		}		
+			return 0;
+		}			
 	};
 	//点击"未佩戴"
 	this.removePaiZi=function () {
@@ -41,7 +47,7 @@ function RoomObj() {
 				document.getElementsByClassName("fans-entrance")[0].appendChild(contentDiv);  
 			}
 			document.getElementsByClassName("radiobox")[document.getElementsByClassName("radiobox").length-1].click();
-			document.getElementById("tempRemovePaizi").remove();			
+			document.getElementById("tempRemovePaizi").remove();
 		}catch(err){
 			//catchCode
 			
@@ -67,10 +73,10 @@ function RoomObj() {
 			tipswrapDiv.appendChild(p);
 			document.getElementsByClassName("fans-entrance")[0].appendChild(tipswrapDiv);
 			document.getElementsByClassName("adornbtn")[0].click();
-			document.getElementById("tempAddPaizi").remove();			
+			document.getElementById("tempAddPaizi").remove();
 		}catch(err){
 			// class ="fans-entrance" ,没有加载完毕时,会出错
-		}		
+		}
 	};
 	//设置弹幕颜色
 	this.setDanMuYanSe=function () {
@@ -81,7 +87,7 @@ function RoomObj() {
 				var divClass = danmuYs[i].childNodes[0].getAttribute("class");
 				document.getElementsByClassName(divClass)[0].click();
 				break;
-			}	
+			}
 		}
 	};
 };

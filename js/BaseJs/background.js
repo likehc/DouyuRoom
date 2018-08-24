@@ -19,15 +19,22 @@ function newRoom(_id,_des) {
 	}
 };
 
-//判断是否要插入数据库
-if (localStorage.addMysql == undefined) {
-	localStorage.addMysql == false;	
+//插入数据库默认类型 0不保存1.Web Sql 2.MySql  
+if (localStorage.insertType == undefined) {
+	localStorage.insertType == 0;	
 }
 //共用变量
 var exId;	//扩展程序id
 var tabId;	//当前tab id
 // https://rpic.douyucdn.cn/asrpic/*.jpg // 房间外显图片一定别阻止
 var blockUrls =[
+	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/app-firstscreen-all.js?*",	//用于替换本地js
+	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js?v*",	//用于替换本地js
+	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all2.js?v*",	//用于替换本地js
+	"https://shark.douyucdn.cn/app/douyu/activity/js/richMan/richManBar.js?*",	//用于替换本地js
+	"https://shark.douyucdn.cn/app/douyu/activity/js/valentineDay1807/valentineDayBar.js?*",	//用于替换本地js
+
+
 	"https://sta-op.douyucdn.cn/nggsys/*.jpg",	// 视频框内游戏推广	
 	"https://sta-op.douyucdn.cn/nggsys/*.png",	// 视频框内游戏推广
 	"https://sta-op.douyucdn.cn/vod-cover/*.jpg",	//视频内的推荐图片
@@ -37,24 +44,31 @@ var blockUrls =[
 	"https://sta-op.douyucdn.cn/vod-cover/*.jpeg",	//视频推荐 房间预览
 	"https://shark.douyucdn.cn/app/douyu/res/page/*.gif",	//源图片出错预备图
 	"https://cs-op.douyucdn.cn/nggsys/*.jpg",	//其它游戏推广
-	"https://cs-op.douyucdn.cn/nggsys/*.png",	//其它游戏推广	
-	
+	"https://cs-op.douyucdn.cn/nggsys/*.png",	//其它游戏推广		
 	"http://image.wan.douyu.com/upload/*.png",	//个人说明里的游戏推广
 	"https://shark.douyucdn.cn/app/douyu/res/com/*.jpg?*",	//斗鱼公会
 	"https://shark.douyucdn.cn//app/douyu/res/page/room-normal/clientdown/*.png?*",	//客户端下载页图片
-	"https://hm.baidu.com/hm*",	//百度代码统计
-
-	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js?v*",	//用于替换本地js
-
-	"https://www.douyu.com/member/task/redPacketReceive"
+	"https://hm.baidu.com/hm*",	//百度代码统计	
 ];
 var callback =function(details){
+	//v8.274
+	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/app-firstscreen-all.js")>-1) {
+		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/app-firstscreen-all.js")};
+	}
 	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js")>-1) {
-		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/mod-all1.js")};
+		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/mod-all1.js")};		
 	}
-	if (details.url.indexOf("https://www.douyu.com/member/task/redPacketReceive")>-1) {
-		return {cancel: false};
+	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all2.js")>-1) {
+		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/mod-all2.js")};		
 	}
+	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/activity/js/richMan/richManBar.js")>-1) {
+		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/richManBar.js")};
+	}
+	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/activity/js/valentineDay1807/valentineDayBar.js")>-1) {
+		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/valentineDayBar.js")};
+	}
+
+
 	return {cancel: true};
 };
 var filter = {urls:blockUrls};
@@ -88,17 +102,30 @@ function setLocalStorage(key,value) {
 function getLocalStorage(key) {
 	return localStorage[key];
 }
-
 function getRooms(){
 	return (localStorage.RoomArr==undefined||localStorage.RoomArr=="")?[]:JSON.parse(localStorage.RoomArr);
 };
-
 function getTreasureMsg(){
 	return (localStorage.treasureMsg==undefined||localStorage.treasureMsg=="")?"666":localStorage.treasureMsg;
 };
+var SqlDate =[];
+// var 
 var ws = new WebSocket("ws://localhost:8787");
+ws.onclose = function (event) {};
+ws.onerror = function (event) {};
+function setOnmessage() {
+	ws.onmessage = function(evt) {	
+		//console.log(evt.data);
+		var msgType = JSON.parse(evt.data);
+		if (msgType.FuncName=="getDataBetweenDay") {
+			SqlDate=[];
+			SqlDate = evt.data;
+		}	
+	};
+};
+
 function insertSql(_data) {	
-	if (localStorage.addMysql ==1) {		
+	if (localStorage.insertType ==2) {		
 		//插入数据库
 		try{
 			if (ws.readyState !=1) {
@@ -109,16 +136,35 @@ function insertSql(_data) {
 				};
 			}else{
 				ws.send("insertSql##yhc##"+JSON.stringify(_data));
+				setOnmessage();
 				return "inserted!";	
 			}			
 			return "err";
 		}catch(err){
 			return "err";
 		}
-		
-	}
-	
+	}	
 }
+function getDataBetweenDay(s,e){
+	try{
+		if (ws.readyState !=1) {
+			ws = new WebSocket("ws://localhost:8787");
+				ws.onopen = function(){
+				ws.send("getDataBetweenDay##yhc##"+s+","+e);
+				//return "inserted!";	
+			};
+		}else{
+			ws.send("getDataBetweenDay##yhc##"+s+","+e);
+			setOnmessage();
+			//return "inserted!";	
+		}
+		 
+		return "err";
+	}catch(err){
+		return "err";
+	}
+}
+
 /*
 *	如果没有相应的结果,则返回null
 */
@@ -149,6 +195,30 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	//return true;
 	sendResponse(result);	
 });
+//tab 激活事件
+chrome.tabs.onActivated.addListener(function(activeInfo){ 
+	chrome.browserAction.setBadgeText({text: ''});
+	//console.log('Tab '+activeInfo.tabId+' in window '+activeInfo.windowId+' is active now.'); 
+	var rooms =(localStorage.RoomArr==undefined||localStorage.RoomArr=="")?[]:JSON.parse(localStorage.RoomArr);
+	try{
+		chrome.tabs.query({ 
+			active: true 
+		}, function(tabArray){ 
+			var roomStrArr =tabArray[0].url.split("/");
+			if (roomStrArr.length !=4) return;
+			var roomTempId = roomStrArr[3];			
+			for (var a = 0; a < rooms.length; a++) {
+				if (rooms[a].id ==roomTempId) {
+					chrome.browserAction.setBadgeText({text: 'Block'});
+					chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
+					break;
+				}				
+			}
+		});		
+	}catch(err){
+		//catchCode		
+	}	
+}); 
 
 // function logResponse(responseDetails) {
 // 	console.log(responseDetails);
