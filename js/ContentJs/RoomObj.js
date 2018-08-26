@@ -137,3 +137,20 @@ RoomObj.getDataFormBackground = function(_msgType,_obj) {
 		}
 	);
 };
+//在页面插入js 或css ，当插入Css时，请确保isCss值为"css"
+RoomObj.insertJsCss= function(filePath,isCss) {
+	var hm;
+	if (isCss!=undefined) {
+		hm = document.createElement("link");
+		hm.setAttribute('rel','stylesheet');
+		hm.setAttribute('type','text/css');
+		hm.href=filePath;
+
+	}else{
+		hm = document.createElement("script");
+		hm.setAttribute("type","text/javascript");
+		hm.src = filePath;
+	}
+	var s = document.getElementsByTagName("title")[0]; 
+	s.parentNode.insertBefore(hm, s);	
+}

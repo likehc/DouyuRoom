@@ -1,0 +1,37 @@
+#shotMsg {
+	display: none;
+	color:red;
+	text-align:center;
+	font-size:16px;
+	font-weight:bold;
+	width: 312px; 
+	height: 280px;
+	position: absolute; 
+	bottom: 32px;right: -3px;
+	padding: 1px 8px 1px 8px; 
+	background: #fff;
+	border: 3px solid #C7EDCC;
+	box-shadow: 0 0 20px #f4f4f4;
+	white-space: nowrap;
+	border-radius:25px;
+	/*overflow:auto;*/
+	overflow-y:auto;
+	overflow-x:hidden; 
+	/*opacity: 0.6;*/ /*透明度度*/
+}
+#shotMsg .el-tag{
+	display:block;
+	width: 310px; 
+	height: 28px;	
+	margin-bottom: 2px;
+	margin-top: 2px;
+	word-wrap:break-word;
+	cursor:pointer;
+}
+#shotMsg .el-tag:hover{
+	background-color:yellow;	
+}
+
+#shotMsg .el-tag a{
+	/*text-decoration:none; */
+}

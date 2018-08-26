@@ -26,54 +26,7 @@ if (localStorage.insertType == undefined) {
 //共用变量
 var exId;	//扩展程序id
 var tabId;	//当前tab id
-// https://rpic.douyucdn.cn/asrpic/*.jpg // 房间外显图片一定别阻止
-var blockUrls =[
-	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/app-firstscreen-all.js?*",	//用于替换本地js
-	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js?v*",	//用于替换本地js
-	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all2.js?v*",	//用于替换本地js
-	"https://shark.douyucdn.cn/app/douyu/activity/js/richMan/richManBar.js?*",	//用于替换本地js
-	"https://shark.douyucdn.cn/app/douyu/activity/js/valentineDay1807/valentineDayBar.js?*",	//用于替换本地js
 
-
-	"https://sta-op.douyucdn.cn/nggsys/*.jpg",	// 视频框内游戏推广	
-	"https://sta-op.douyucdn.cn/nggsys/*.png",	// 视频框内游戏推广
-	"https://sta-op.douyucdn.cn/vod-cover/*.jpg",	//视频内的推荐图片
-	"https://sta-op.douyucdn.cn/vod-cover/*.png",	//视频内的推荐图片
-	"https://sta-op.douyucdn.cn/dypart/*.jpg",
-	"https://sta-op.douyucdn.cn/dypart/*.png",
-	"https://sta-op.douyucdn.cn/vod-cover/*.jpeg",	//视频推荐 房间预览
-	"https://shark.douyucdn.cn/app/douyu/res/page/*.gif",	//源图片出错预备图
-	"https://cs-op.douyucdn.cn/nggsys/*.jpg",	//其它游戏推广
-	"https://cs-op.douyucdn.cn/nggsys/*.png",	//其它游戏推广		
-	"http://image.wan.douyu.com/upload/*.png",	//个人说明里的游戏推广
-	"https://shark.douyucdn.cn/app/douyu/res/com/*.jpg?*",	//斗鱼公会
-	"https://shark.douyucdn.cn//app/douyu/res/page/room-normal/clientdown/*.png?*",	//客户端下载页图片
-	"https://hm.baidu.com/hm*",	//百度代码统计	
-];
-var callback =function(details){
-	//v8.274
-	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/app-firstscreen-all.js")>-1) {
-		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/app-firstscreen-all.js")};
-	}
-	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js")>-1) {
-		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/mod-all1.js")};		
-	}
-	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all2.js")>-1) {
-		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/mod-all2.js")};		
-	}
-	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/activity/js/richMan/richManBar.js")>-1) {
-		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/richManBar.js")};
-	}
-	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/activity/js/valentineDay1807/valentineDayBar.js")>-1) {
-		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/valentineDayBar.js")};
-	}
-
-
-	return {cancel: true};
-};
-var filter = {urls:blockUrls};
-var opt_extraInfoSpec = ["blocking"];
-chrome.webRequest.onBeforeRequest.addListener(callback, filter, opt_extraInfoSpec);
 
 /*
 *	_room为Room的实例,必包含Id
@@ -164,6 +117,17 @@ function getDataBetweenDay(s,e){
 		return "err";
 	}
 }
+//获取快捷短语
+function getShotMsgArr(_roomId) {
+	if (_roomId!=undefined) {
+		return localStorage[_roomId];
+	}else{
+		return localStorage.shotMsgArr;
+	}
+}
+function getExtensionId() {
+	return chrome.runtime.id;
+}
 
 /*
 *	如果没有相应的结果,则返回null
@@ -187,6 +151,16 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 			case "insertSql":
 				result = insertSql(message.data);
 			break;
+			case "getShotMsgArr":
+				if (message.data!=undefined) {
+					result = getShotMsgArr(message.data);
+				}else{
+					result = getShotMsgArr();
+				}				
+			break;
+			case "getExtensionId":
+				result = getExtensionId();
+			break;
 		}	
 	}		
 	// setTimeout(function(){
@@ -203,18 +177,22 @@ chrome.tabs.onActivated.addListener(function(activeInfo){
 	try{
 		chrome.tabs.query({ 
 			active: true 
-		}, function(tabArray){ 
-			var roomStrArr =tabArray[0].url.split("/");
-			if (roomStrArr.length !=4) return;
-			var roomTempId = roomStrArr[3];			
-			for (var a = 0; a < rooms.length; a++) {
-				if (rooms[a].id ==roomTempId) {
-					chrome.browserAction.setBadgeText({text: 'Block'});
-					chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
-					break;
-				}				
-			}
-		});		
+		}, function(tabArray){	//多窗口时tabArray要处理下
+			for (var i = tabArray.length - 1; i >= 0; i--) {
+				if (tabArray[i].audible) {
+					var roomStrArr =tabArray[i].url.split("/");
+					if (roomStrArr.length !=4) return;
+					var roomTempId = roomStrArr[3];			
+					for (var a = 0; a < rooms.length; a++) {
+						if (rooms[a].id ==roomTempId) {
+							chrome.browserAction.setBadgeText({text: 'Block'});
+							chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
+							break;
+						}
+					}
+				}
+			}			
+		});
 	}catch(err){
 		//catchCode		
 	}	

@@ -16,7 +16,7 @@ function getBoxInfo() {
 					//从未开过宝箱undefined,开过"none",正在开"block"
 					if ($(".geetest_fullpage_click.geetest_float.geetest_wind.geetest_click").css("display") != "block") {
 						$(".peck-cdn").click();	//点击领取
-						$("#treasure").click();	//点击领取			
+						// $("#treasure").click();	//点击领取			
 						$(".geetest_radar_tip").click();	//点击按钮进行验证
 					}
 				}else{
@@ -70,14 +70,4 @@ function giftBatterBoxRemove() {
 		$("#shie-switch").click();
 	}
 	$("#js-shie-gift").remove();	//礼物特效
-}
-window.addEventListener("message", function(e)
-{
-	if (e.data.hasOwnProperty("insertSql") ) {
-		// console.log(JSON.stringify(e.data));
-		// console.log(e.data);
-		var data = e.data.insertSql;
-		data.roomId = roomObj.getRoomId();
-		var s =RoomObj.getDataFormBackground({type:"function",functionName:"insertSql",data});
-	}
-}, false);
+};

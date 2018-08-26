@@ -9,13 +9,15 @@
 	},
 	"content_scripts":[{
 		"js": [
-			"js/BaseJs/jquery.min.js",
-			"js/BaseJs/RoomObj.js",
-			"js/BaseJs/onmessage.js",
-			"js/removeRoom.js",
-			"js/paizidanmu.js",
-			"js/removeAds.js",
-			"js/treasureBox.js"
+			"js/QuoteJs/jquery.min.js",
+			"js/ContentJs/RoomObj.js",
+			"js/ContentJs/injectionPageJs.js",
+			"js/ContentJs/onmessage.js",
+			"js/ContentJs/removeRoom.js",
+			"js/ContentJs/paizidanmu.js",
+			"js/ContentJs/removeAds.js",
+			"js/ContentJs/treasureBox.js",
+			"js/ContentJs/shotMsg.js"
 		],	//要注入的js
 		"matches": ["https://www.douyu.com/*","http://www.douyu.com/*"],	//满足这里的页面方能注入js
 		// "run_at": "document_start",
@@ -29,15 +31,26 @@
 		"<all_urls>"
 	],
 	"background": {
-		"scripts": ["js/BaseJs/background.js"]
+		"scripts": [
+			"js/BaseJs/bgBlock.js",
+			"js/BaseJs/bgFunction.js",
+			"js/BaseJs/bgMessage.js"
+		]
 	},
 	"browser_action": {
 		"default_icon": "ico/icon.png",//扩展在浏览器右上图标
-		"default_popup": "popup.html"
+		"default_popup": "html/popup.html"
 	},
-	"options_page": "options.html",
+	"options_page": "html/options.html",
 	"web_accessible_resources":[
-		"js/RedirectJs/*"
+		"css/*",
+		"js/*",
+		"js/RedirectJs/*",
+		"node_modules/*",
+		"node_modules/element-ui/lib/*"
 	],
-	"content_security_policy":"script-src 'self' 'unsafe-eval'; object-src 'self'"	//安全策略,引用其他js(vue.js)
+	"content_security_policy":"script-src 'self' 'unsafe-eval'; object-src 'self'",	//安全策略,引用其他js(vue.js)
+	"externally_connectable": {
+		"matches": ["*://*.douyu.com/*"]
+	}
 }
