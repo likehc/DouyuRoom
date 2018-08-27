@@ -1,9 +1,9 @@
 #shotMsg {
 	display: none;
 	color:red;
-	text-align:center;
 	font-size:16px;
 	font-weight:bold;
+	text-align:center;
 	width: 312px; 
 	height: 280px;
 	position: absolute; 
@@ -19,6 +19,20 @@
 	overflow-x:hidden; 
 	/*opacity: 0.6;*/ /*透明度度*/
 }
+#shotMsg .el-icon-edit{
+	font-size:14px;
+	text-align:right;
+	margin-top: 5px;
+	float:right;
+	cursor:pointer;
+}
+#shotMsg .el-icon-success{
+	font-size:14px;
+	text-align:right;
+	margin-top: 5px;
+	float:right;
+	cursor:pointer;
+}
 #shotMsg .el-tag{
 	display:block;
 	width: 310px; 
@@ -28,9 +42,20 @@
 	word-wrap:break-word;
 	cursor:pointer;
 }
+#shotMsg #inputTag{
+	display: none;
+	position:absolute;
+	left:28px;
+	margin-bottom: 10px;
+	/*top:200px;
+	left:50px;
+	z-index: 99;*/
+}
+
 #shotMsg .el-tag:hover{
 	background-color:yellow;	
 }
+
 
 #shotMsg .el-tag a{
 	/*text-decoration:none; */

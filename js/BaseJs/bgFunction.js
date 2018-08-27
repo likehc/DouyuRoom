@@ -125,6 +125,14 @@ function getShotMsgArr(_roomId) {
 		return localStorage.shotMsgArr;
 	}
 }
+//设置快捷短语
+function setShotMsgArr(tagStr,_roomId) {
+	if (_roomId!=undefined) {
+		localStorage[_roomId] = tagStr;
+	}else{
+		localStorage.shotMsgArr = tagStr;
+	}
+}
 function getExtensionId() {
 	return chrome.runtime.id;
 }
@@ -156,7 +164,14 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 					result = getShotMsgArr(message.data);
 				}else{
 					result = getShotMsgArr();
-				}				
+				}
+			break;
+			case "setShotMsgArr":
+				if (message.data!=undefined) {
+					setShotMsgArr(message.data,message.roomId);
+				}else{
+					setShotMsgArr(message.data);
+				}
 			break;
 			case "getExtensionId":
 				result = getExtensionId();

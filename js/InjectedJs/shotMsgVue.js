@@ -1,46 +1,47 @@
+var isTagDel =false;
 var shotMsg = new Vue({
 	el: '#tags',
 	data: {
+		isclose:true,
 		message: 'Hello Vue!',
 		tags: [
-			/*{ "name": "标签一22222222333333333标签一", "type": "" },
-			{ "name": "标签二sdsddsdsdsd", "type": "success" },
-			{ "name": "标签三", "type": "info" },
-			{ "name": "标签四", "type": "warning" },
-			{ "name": "标签五", "type": "danger" },
-			{ "name": "标签五1", "type": "danger" },
-			{ "name": "标签五2", "type": "danger" },
-			{ "name": "标签五3", "type": "danger" },
-			{ "name": "标签五4", "type": "danger" },
-			{ "name": "标签五5", "type": "danger" },
-			{ "name": "标签五6", "type": "danger" },
-			{ "name": "标签五7", "type": "danger" },
-			{ "name": "标签五8", "type": "danger" },
-			{ "name": "标签五9", "type": "danger" },
-			{ "name": "标签五0", "type": "danger" }*/			
+			/*{ "name": "标签一", "type": "" },
+			{ "name": "标签二", "type": "success" },*/			
 		]
 	},
 	methods:{
-		judge:function(row, column) { 
-			var type = row[column.property];
-			if (type ==1) {return "火箭"}
-			if (type ==2) {return "飞机"}
-		}
 		
 	}
 });
-var tags = document.getElementById("tags");
-if (tags!=null) {
-	tags.onclick = function( ev ){
+var timeInd1 = null;
+$('#tags').click(function(ev) {
+	clearTimeout(timeInd1);
+	timeInd1 = setTimeout(function(){
+		//do click function
 		var event = ev || window.event;
 		var target = event.target || event.srcElement; 
 		if (target.nodeName.toLowerCase() == 'span' ){
+			if (isTagDel) return;
 			var msg =target.innerText.trim();
 			sendMsg(msg);
 			$("#shotMsg").hide();
 		}
-	};
-}
+	},100);
+});
+$('#tags').dblclick(function(ev) {
+	clearTimeout(timeInd1);
+	var event = ev || window.event;
+	var target = event.target || event.srcElement; 
+	if (target.nodeName.toLowerCase() == 'span' ){
+		if (isTagDel) {
+			target.remove();
+		}else{
+			// var msg =target.innerText.trim();
+			// sendMsg(msg);
+			// $("#shotMsg").hide();
+		}		
+	}
+});
 
 /*
 * 	发送弹幕
@@ -50,19 +51,29 @@ function sendMsg(s) {
 	document.getElementsByClassName('b-btn')[0].click();
 };
 
-var pageMsgObj = new Object;
-var pageMessage = {from:"pageMsg" ,type: 'function', functionName: 'getShotMsgArr'}
-pageSendMsg(pageMessage,pageMsgObj);
-self.setTimeout(function() {
-	var shotMsgArr = pageMsgObj.data.split(",");
-	var msgArr = [];
-	for (var c = 0; c < shotMsgArr.length; c++) {
-		var tag =getTagType(shotMsgArr[c],c);
-		msgArr.push(tag);
-	}
-	shotMsg.tags=msgArr;	
+function initializeTag() {
+	try{
+		var pageMsgObj = new Object;
+		var pageMessage = {from:"pageMsg" ,type: 'function', functionName: 'getShotMsgArr'};
+		pageSendMsg(pageMessage,pageMsgObj);
+		self.setTimeout(function() {
+			if (pageMsgObj.data == null ||pageMsgObj.data == undefined ||pageMsgObj.data.length==0) {pageMsgObj.data=""};
+			var shotMsgArr = pageMsgObj.data.split("|yhc|");
+			var msgArr = [];
+			for (var c = 0; c < shotMsgArr.length; c++) {
+				if (shotMsgArr[c] !="") {
+					var tag =getTagType(shotMsgArr[c],c);
+					msgArr.push(tag);
+				}				
+			}
+			shotMsg.tags=msgArr;
+		},150);
+			
+	}catch(err){
+		console.log(err);		
+	}	
+};
 
-},300);
 function getTagType(s,i) {
 	var index=i%5;
 	switch(index)
@@ -83,4 +94,86 @@ function getTagType(s,i) {
 			return { "name":s, "type": "danger" };
 		break;
 	}	
-}
+};
+
+$(function() {
+	initializeTag();
+	bindTagSave();
+});
+
+function saveTags(newTag) {
+	var tags =$("#tags .el-tag");
+	var tagStr="";
+	for (var a = 0; a < tags.length; a++) {
+		if (tags[a] =="") {
+			continue;
+		}
+		if (a== tags.length-1) {
+			tagStr = tagStr+tags[a].innerText.trim();
+		}else{
+			tagStr = tagStr+tags[a].innerText.trim()+"|yhc|";
+		}
+	}
+	if (newTag != undefined & newTag !="" && newTag != null) {
+		if (tagStr =="") {
+			tagStr = newTag.trim();
+		}else{
+			tagStr = tagStr+"|yhc|"+newTag.trim();
+		}		
+	}	
+	pageSendMsg( {from:"pageMsg" ,type: 'function', functionName: 'setShotMsgArr',data:tagStr});
+	return tagStr;
+};
+
+function bindTagSave() {
+	var tagSave =$("#tagSave");
+	if (tagSave.length>0){
+		if (!isBindFunction(tagSave,"click")) {
+			document.getElementById("tagSave").onclick = function(){
+				if (tagSave.text().trim() == "修改") {
+					isTagDel =true;
+					$("#inputTag").show();
+					tagSave.text("保存");
+					tagSave.attr("class","el-icon-success");
+					try{						
+						$("#tags").sortable();
+						$("#tags").sortable("enable");
+					}catch(err){
+					}					
+				}else{
+					isTagDel =false;
+					$("#inputTag").hide();
+					saveTags();
+					tagSave.text("修改");
+					tagSave.attr("class","el-icon-edit");
+					$("#tags").sortable("disable");
+					$("#tags").disableSelection();					
+				}
+			};
+		}
+	}
+};
+//var $events = $("#tags").data("events");
+//isBindFunction($("#tags"),"click")
+function isBindFunction(dom,fun) {
+	var $events = dom.data("events");
+	if( $events && $events[fun] ){
+			return true;	//绑定
+	}else{
+		return false;	//未绑定
+	}
+};
+document.getElementById('inputTag').addEventListener('keydown',function(e){
+	if(e.keyCode!=13){
+		return;
+	}else{
+		var inputTag =$("#inputTag");
+		saveTags(inputTag.val());
+		var newTag=getTagType(inputTag.val(),$("#tags .el-tag").length);
+		shotMsg.tags.push(newTag);
+		inputTag.val("");
+		$('#shotMsg').scrollTop($('#shotMsg')[0].scrollHeight);	
+		e.preventDefault();
+		this.value += '';
+	}	
+});

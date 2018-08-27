@@ -3,6 +3,7 @@ insertJsCss(basePath+"css/shotmsg.css","css");
 insertJsCss(basePath+"node_modules/element-ui/lib/theme-chalk/index.css","css");
 insertJsCss(basePath+"node_modules/vue.js");
 insertJsCss(basePath+"node_modules/element-ui/lib/index.js");
+insertJsCss("https://cdn.staticfile.org/jqueryui/1.12.1/jquery-ui.min.js");
 // insertJsCss("https://unpkg.com/element-ui/lib/theme-chalk/index.css","css")
 // insertJsCss("https://unpkg.com/vue/dist/vue.js")
 // insertJsCss("https://unpkg.com/element-ui/lib/index.js")
@@ -35,18 +36,24 @@ function createShotMsgDiv() {
 		shotDiv.setAttribute("id","shotMsg");
 		shotDiv.setAttribute("style","overflow-y:auto;overflow-x:hidden;");
 		shotDiv.setAttribute("icon","el-icon-edit");
-		shotDiv.innerHTML = '<div class="el-icon-edit"> 快捷短语 </div>';
+		shotDiv.innerHTML = '<div class="el-icon-document"> 快捷短语 </div><div class="el-icon-edit" id="tagSave">修改</div>';
 		var subDiv = document.createElement("div");
 		subDiv.setAttribute("id","tags");
-		subDiv.innerHTML ='<el-tag v-for="tag in tags" :key="tag.name" closable:true hit:true :type="tag.type" :formatter="judge">{{tag.name}}</el-tag><br/>';
+		subDiv.innerHTML ='<el-tag v-for="tag in tags" :key="tag.name" closable:true hit:true :type="tag.type" >{{tag.name}}</el-tag><br/>';
 		shotDiv.appendChild(subDiv);
+		var input = document.createElement("textarea");
+		input.setAttribute("id","inputTag");
+		input.setAttribute("cols","40");
+		input.setAttribute("rows","2");
+		input.setAttribute("placeholder","请输入内容,回车添加");
+		shotDiv.appendChild(input);
 		shieGiftFr[0].appendChild(shotDiv);
 		var timeInd = null;
 		$('.cs-textarea').click(function() {
 			clearTimeout(timeInd);
 			timeInd = setTimeout(function(){
 					//do click function
-				},300);
+				},150);
 		});
 		$('.cs-textarea').dblclick(function() {
 			clearTimeout(timeInd);
@@ -58,7 +65,8 @@ function createShotMsgDiv() {
 			}
 		});
 	}
-}
+};
+
 
 function insertJsCss(filePath,isCss) {
 	var hm;
@@ -75,11 +83,11 @@ function insertJsCss(filePath,isCss) {
 	}
 	var s = document.getElementsByTagName("title")[0]; 
 	s.parentNode.insertBefore(hm, s);	
-}
+};
 
 //防止 vue.js没有加载完毕，
 self.setTimeout(function() {
 	roomId = roomObj.getRoomId();
 	if (roomId ==0) {return}
 	insertJsCss(basePath+"js/InjectedJs/shotMsgVue.js");
-},6000);
+},5000);

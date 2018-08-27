@@ -6,7 +6,9 @@ function pageSendMsg(s,_obj) {
 	try{
 		chrome.runtime.sendMessage(targetExtensionId, s, function(response) {
 			// console.log(response);
-			_obj.data =response;
+			if (_obj !=undefined &&_obj != null ) {
+				_obj.data =response;
+			}			
 		});		
 	}catch(err){
 	}

@@ -11,6 +11,14 @@ chrome.runtime.onMessageExternal.addListener(function(request, sender, sendRespo
 					result = getShotMsgArr();
 				}
 			break;
+			case "setShotMsgArr":
+				if (request.data!=undefined) {
+					setShotMsgArr(request.data,request.roomId);
+				}else{
+					setShotMsgArr(request.data);
+				}
+			break;
+			
 			case "":
 			break;
 		}
