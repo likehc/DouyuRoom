@@ -1,8 +1,4 @@
 console.log("I'm form%c mod-all2.js","color:green");
-function insertData(_data) {
-	console.log(_data);
-	window.postMessage({"insertSql": _data}, '*');
-};
 define("douyu/page/room/normal/mod/sign-rate", ["douyu/com/sign", "douyu/com/imgp", "douyu/com/exjsonp", "douyu/context", "shark/util/storage/1.0"], function(e, t, a, s, i) {
 	var n = {
 		cateId: s.get("room.cate_id"),
@@ -10494,7 +10490,7 @@ define("douyu/page/room/normal/mod/sign-rate", ["douyu/com/sign", "douyu/com/img
 			switch (e(".peck-back-tip") && e(".peck-back-tip").length ? e(".peck-back-tip").remove() : "", s) {
 			case "Normal":
 				if (0 !== parseInt(a.code, 10) || 0 === parseInt(a.silver, 10) && 0 === parseInt(a.prop_count, 10)) i = e('<div class="peck-back-tip peck-back-error"><p><span>运气不佳，宝箱已被洗劫一空T_T</span></p></div>'), this.appendTips(i);
-				else if (2 === parseInt(a.award_type, 10)) i = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + a.prop_count + "个" + a.prop_name + "</strong><span>~</span></p></div>"), this.appendTips(i),insertData(i);
+				else if (2 === parseInt(a.award_type, 10)) i = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + a.prop_count + "个" + a.prop_name + "</strong><span>~</span></p></div>"), this.appendTips(i),pageObj.insertData(_data);
 				else if (parseInt(a.lk, 10)) e(".treasure-luckuser-tips") && e(".treasure-luckuser-tips").length ? e(".treasure-luckuser-tips").remove() : "", i = e('<div class="treasure-luckuser-tips"><span class="best"></span></div>'), n.$chatContent.append(i), i.delay(1500).fadeOut(400, function() {
 					i.remove()
 				});
@@ -10503,7 +10499,7 @@ define("douyu/page/room/normal/mod/sign-rate", ["douyu/com/sign", "douyu/com/img
 					i = e('<div class="treasure-luckuser-tips"><span class="bouns"></span><span class="multiply"></span>' + o + "</div>"), n.$chatContent.append(i), i.delay(1500).fadeOut(400, function() {
 						i.remove()
 					})
-				} else i = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + a.silver + "个鱼丸</strong><span>~</span></p></div></div>"), this.appendTips(i),insertData(i);
+				} else i = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + a.silver + "个鱼丸</strong><span>~</span></p></div></div>"), this.appendTips(i),pageObj.insertData(_data);
 			}
 			a.silver_balance && t.trigger("mod.userinfo.change", {
 				current: {

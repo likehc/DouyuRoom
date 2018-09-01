@@ -23,7 +23,7 @@ $('#tags').click(function(ev) {
 		if (target.nodeName.toLowerCase() == 'span' ){
 			if (isTagDel) return;
 			var msg =target.innerText.trim();
-			sendMsg(msg);
+			pageObj.sendMsg(msg);
 			$("#shotMsg").hide();
 		}
 	},100);
@@ -42,15 +42,6 @@ $('#tags').dblclick(function(ev) {
 		}		
 	}
 });
-
-/*
-* 	发送弹幕
-*/
-function sendMsg(s) {
-	document.getElementsByClassName('cs-textarea')[0].value = s;
-	document.getElementsByClassName('b-btn')[0].click();
-};
-
 function initializeTag() {
 	try{
 		var pageMsgObj = new Object;
@@ -128,7 +119,7 @@ function saveTags(newTag) {
 function bindTagSave() {
 	var tagSave =$("#tagSave");
 	if (tagSave.length>0){
-		if (!isBindFunction(tagSave,"click")) {
+		if (!pageObj.isBindFunction(tagSave,"click")) {
 			document.getElementById("tagSave").onclick = function(){
 				if (tagSave.text().trim() == "修改") {
 					isTagDel =true;
@@ -147,32 +138,49 @@ function bindTagSave() {
 					tagSave.text("修改");
 					tagSave.attr("class","el-icon-edit");
 					$("#tags").sortable("disable");
-					$("#tags").disableSelection();					
+					$("#tags").disableSelection();
 				}
 			};
 		}
 	}
 };
-//var $events = $("#tags").data("events");
+
+// 判断元素是否绑定了某方法
 //isBindFunction($("#tags"),"click")
-function isBindFunction(dom,fun) {
-	var $events = dom.data("events");
-	if( $events && $events[fun] ){
-			return true;	//绑定
+/*function isBindFunction(dom,funcName) {
+	var events = dom.data("events");
+	if( events && events[funcName] ){
+		return true;	//绑定
 	}else{
 		return false;	//未绑定
 	}
-};
+};*/
 document.getElementById('inputTag').addEventListener('keydown',function(e){
 	if(e.keyCode!=13){
 		return;
 	}else{
 		var inputTag =$("#inputTag");
+		for (var d = 0; d < shotMsg.tags.length; d++) {
+			if (inputTag.val().trim()=="") {
+				shotMsg.$message("条目名不能为空！");
+				e.preventDefault();
+				this.value += '';
+				return;
+			}
+			if (shotMsg.tags[d].name.trim() == inputTag.val().trim()) {
+				shotMsg.$message("此条目已存在！")
+				e.preventDefault();
+				this.value += '';
+				return;
+			}
+		}
 		saveTags(inputTag.val());
 		var newTag=getTagType(inputTag.val(),$("#tags .el-tag").length);
 		shotMsg.tags.push(newTag);
 		inputTag.val("");
-		$('#shotMsg').scrollTop($('#shotMsg')[0].scrollHeight);	
+		setTimeout(function(){
+			$('#shotMsg').scrollTop($('#shotMsg')[0].scrollHeight);	
+		},0);
 		e.preventDefault();
 		this.value += '';
 	}	

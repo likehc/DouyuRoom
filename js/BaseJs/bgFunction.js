@@ -19,6 +19,7 @@ function newRoom(_id,_des) {
 	}
 };
 
+
 //插入数据库默认类型 0不保存1.Web Sql 2.MySql  
 if (localStorage.insertType == undefined) {
 	localStorage.insertType == 0;	
@@ -26,8 +27,6 @@ if (localStorage.insertType == undefined) {
 //共用变量
 var exId;	//扩展程序id
 var tabId;	//当前tab id
-
-
 /*
 *	_room为Room的实例,必包含Id
 *	_isAdd 为true时，则为新增，为空时则删除，默认为undefined
@@ -78,6 +77,7 @@ function setOnmessage() {
 };
 
 function insertSql(_data) {	
+	// 写入mysql
 	if (localStorage.insertType ==2) {		
 		//插入数据库
 		try{
@@ -96,8 +96,16 @@ function insertSql(_data) {
 		}catch(err){
 			return "err";
 		}
-	}	
-}
+	}
+	//写入indexedDB
+	if (localStorage.insertType ==1) {		
+		try{
+			Treasure.add(_data);			
+		}catch(err){
+			return "err";
+		}
+	}
+};
 function getDataBetweenDay(s,e){
 	try{
 		if (ws.readyState !=1) {
@@ -116,7 +124,7 @@ function getDataBetweenDay(s,e){
 	}catch(err){
 		return "err";
 	}
-}
+};
 //获取快捷短语
 function getShotMsgArr(_roomId) {
 	if (_roomId!=undefined) {
@@ -124,7 +132,7 @@ function getShotMsgArr(_roomId) {
 	}else{
 		return localStorage.shotMsgArr;
 	}
-}
+};
 //设置快捷短语
 function setShotMsgArr(tagStr,_roomId) {
 	if (_roomId!=undefined) {
@@ -140,7 +148,6 @@ function getExtensionId() {
 /*
 *	如果没有相应的结果,则返回null
 */
-
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	exId=sender.id;
 	if (sender.hasOwnProperty("tab")){tabId=sender.tab.id}else{return}; //点击扩展时,也会激活此事件
@@ -177,7 +184,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 				result = getExtensionId();
 			break;
 		}	
-	}		
+	}
 	// setTimeout(function(){
 	// 	sendResponse(result);
 	// },400);
@@ -185,38 +192,51 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 	sendResponse(result);	
 });
 //tab 激活事件
-chrome.tabs.onActivated.addListener(function(activeInfo){ 
-	chrome.browserAction.setBadgeText({text: ''});
-	//console.log('Tab '+activeInfo.tabId+' in window '+activeInfo.windowId+' is active now.'); 
-	var rooms =(localStorage.RoomArr==undefined||localStorage.RoomArr=="")?[]:JSON.parse(localStorage.RoomArr);
-	try{
-		chrome.tabs.query({ 
-			active: true 
-		}, function(tabArray){	//多窗口时tabArray要处理下
-			for (var i = tabArray.length - 1; i >= 0; i--) {
-				if (tabArray[i].audible) {
-					var roomStrArr =tabArray[i].url.split("/");
-					if (roomStrArr.length !=4) return;
-					var roomTempId = roomStrArr[3];			
-					for (var a = 0; a < rooms.length; a++) {
-						if (rooms[a].id ==roomTempId) {
-							chrome.browserAction.setBadgeText({text: 'Block'});
-							chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
-							break;
-						}
-					}
+// chrome.tabs.onActivated.addListener(function(activeInfo){
+// 	chrome.browserAction.setBadgeText({text: ''});
+// 	//console.log('Tab '+activeInfo.tabId+' in window '+activeInfo.windowId+' is active now.'); 
+// 	var rooms =(localStorage.RoomArr==undefined||localStorage.RoomArr=="")?[]:JSON.parse(localStorage.RoomArr);
+// 	try{
+// 		chrome.tabs.query({ 
+// 			active: true 
+// 		}, function(tabArray){	//多窗口时tabArray要处理下
+// 			for (var i = tabArray.length - 1; i >= 0; i--) {
+// 				if (tabArray[i].audible) {
+// 					var roomStrArr =tabArray[i].url.split("/");
+// 					if (roomStrArr.length !=4) return;
+// 					var roomTempId = roomStrArr[3];			
+// 					for (var a = 0; a < rooms.length; a++) {
+// 						if (rooms[a].id ==roomTempId) {
+// 							chrome.browserAction.setBadgeText({text: 'Block'});
+// 							chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
+// 							break;
+// 						}
+// 					}
+// 				}
+// 			}
+// 		});
+// 	}catch(err){
+// 	}	
+// });
+//tab 激活事件
+chrome.tabs.onActivated.addListener(function(activeInfo){
+	chrome.tabs.getSelected(function(tabs)
+	{
+		// console.log("当前的标签是:",tabs);
+		chrome.browserAction.setBadgeText({text: ''});
+		var rooms =(localStorage.RoomArr==undefined||localStorage.RoomArr=="")?[]:JSON.parse(localStorage.RoomArr);
+		try{
+			var roomStrArr =tabs.url.split("/");
+			if (roomStrArr.length !=4) return;
+			var roomTempId = roomStrArr[3];			
+			for (var a = 0; a < rooms.length; a++) {
+				if (rooms[a].id ==roomTempId) {
+					chrome.browserAction.setBadgeText({text: 'Block'});
+					chrome.browserAction.setBadgeBackgroundColor({color: [255, 0, 0, 255]});
+					break;
 				}
-			}			
-		});
-	}catch(err){
-		//catchCode		
-	}	
-}); 
-
-// function logResponse(responseDetails) {
-// 	console.log(responseDetails);
-// }
-// chrome.webRequest.onCompleted.addListener(
-// 	logResponse,
-// 	{urls: ["https://www.douyu.com/member/task/redPacketReceive"]}
-// );
+			}
+		}catch(err){
+		}
+	});
+});

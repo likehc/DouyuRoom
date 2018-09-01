@@ -5,7 +5,7 @@ var blockUrls =[
 	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all2.js?v*",	//用于替换本地js
 	"https://shark.douyucdn.cn/app/douyu/activity/js/richMan/richManBar.js?*",	//用于替换本地js
 	"https://shark.douyucdn.cn/app/douyu/activity/js/valentineDay1807/valentineDayBar.js?*",	//用于替换本地js
-
+	// "https://api.geetest.com/ajax.php?gt=*",//打码平台
 
 	"https://sta-op.douyucdn.cn/nggsys/*.jpg",	// 视频框内游戏推广	
 	"https://sta-op.douyucdn.cn/nggsys/*.png",	// 视频框内游戏推广
@@ -21,6 +21,7 @@ var blockUrls =[
 	"https://shark.douyucdn.cn/app/douyu/res/com/*.jpg?*",	//斗鱼公会
 	"https://shark.douyucdn.cn//app/douyu/res/page/room-normal/clientdown/*.png?*",	//客户端下载页图片
 	"https://hm.baidu.com/hm*",	//百度代码统计	
+	"https://ucp.douyucdn.cn/ucp.do",
 ];
 var callback =function(details){
 	//v8.274
@@ -39,10 +40,27 @@ var callback =function(details){
 	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/activity/js/valentineDay1807/valentineDayBar.js")>-1) {
 		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/valentineDayBar.js")};
 	}
-
+	//打码平台
+	// if (details.url.indexOf("https://api.geetest.com/ajax.php?gt=")>-1) {
+	// 	var s = getGtAndChallenge(details.url);
+	// 	console.log(s);
+	// 	return {cancel: false};
+	// }
 
 	return {cancel: true};
 };
 var filter = {urls:blockUrls};
 var opt_extraInfoSpec = ["blocking"];
 chrome.webRequest.onBeforeRequest.addListener(callback, filter, opt_extraInfoSpec);
+
+//打码平台
+function getGtAndChallenge(_s) {
+	try{
+		var strArr = _s.split("&");
+		var gt = strArr[0].split("=")[1];
+		var challenge = strArr[1].split("=")[1];
+		return "gt="+gt+"&challenge="+challenge;		
+	}catch(err){
+	}
+	return "can't get the gt&challenge";
+}

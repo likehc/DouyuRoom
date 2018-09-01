@@ -103,13 +103,13 @@ RoomObj.getEquationOfTime = function (t) {
 	var days=Math.floor(date3/(24*3600*1000));
 	var leave1=date3%(24*3600*1000);	//计算天数后剩余的毫秒数
 	var hours=Math.floor(leave1/(3600*1000));
-	hours = (days*24)+hours >10 ? hours:"0"+hours;	//计算相差分钟数
+	hours = (days*24)+hours >=10 ? hours:"0"+hours;	//计算相差分钟数
 	var leave2=leave1%(3600*1000);	//计算小时数后剩余的毫秒数
 	var minutes=Math.floor(leave2/(60*1000));
-	minutes = minutes>10 ? minutes:"0"+minutes;	//计算相差秒数
+	minutes = minutes>=10 ? minutes:"0"+minutes;	//计算相差秒数
 	var leave3=leave2%(60*1000);	//计算分钟数后剩余的毫秒数
 	var seconds=Math.round(leave3/1000);
-	seconds = seconds>10 ? seconds:"0"+seconds;
+	seconds = seconds>=10 ? seconds:"0"+seconds;
 	return hours+":"+minutes+":"+seconds;
 }
 
@@ -138,19 +138,50 @@ RoomObj.getDataFormBackground = function(_msgType,_obj) {
 	);
 };
 //在页面插入js 或css ，当插入Css时，请确保isCss值为"css"
-RoomObj.insertJsCss= function(filePath,isCss) {
-	var hm;
-	if (isCss!=undefined) {
-		hm = document.createElement("link");
-		hm.setAttribute('rel','stylesheet');
-		hm.setAttribute('type','text/css');
-		hm.href=filePath;
-
-	}else{
-		hm = document.createElement("script");
-		hm.setAttribute("type","text/javascript");
-		hm.src = filePath;
-	}
+RoomObj.insertCss = function(filePath) {
+	var hm= document.createElement("link");
+	hm.setAttribute('rel','stylesheet');
+	hm.setAttribute('type','text/css');
+	hm.href=filePath;
 	var s = document.getElementsByTagName("title")[0]; 
 	s.parentNode.insertBefore(hm, s);	
 }
+RoomObj.insertJs = function(filePath,t) {
+	var hm  = document.createElement("script");
+	hm.setAttribute("type","text/javascript");
+	hm.src = filePath;
+	var s = document.getElementsByTagName("title")[0]; 
+	if (t!=undefined) {
+		s.parentNode.insertBefore(hm, s);
+	}else{
+		setTimeout(function() {
+			s.parentNode.insertBefore(hm, s);
+		},t);
+	}
+}
+//yyyy-MM-dd HH-mm-ss
+RoomObj.formatDateTime = function(inputTime) {  
+    var date = new Date(inputTime);
+    var y = date.getFullYear();  
+    var m = date.getMonth() + 1;  
+    m = m < 10 ? ('0' + m) : m;  
+    var d = date.getDate();  
+    d = d < 10 ? ('0' + d) : d;  
+    var h = date.getHours();
+    h = h < 10 ? ('0' + h) : h;
+    var minute = date.getMinutes();
+    var second = date.getSeconds();
+    minute = minute < 10 ? ('0' + minute) : minute;  
+    second = second < 10 ? ('0' + second) : second; 
+    return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;  
+};
+
+//查看元素是否绑定了某方法,使用isBindFunction($("#tags"),"click")
+RoomObj.isBindFunction = function(dom,funcName) {
+	var events = dom.data("events");
+	if(events && events[funcName] ){
+			return true;	//绑定
+	}else{
+		return false;	//未绑定
+	}
+};

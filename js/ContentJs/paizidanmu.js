@@ -15,5 +15,5 @@ $(document).ready(function(){
 			return;
 		}
 		pzTimerIndex++;
-	},2000);
+	},5000);
 });

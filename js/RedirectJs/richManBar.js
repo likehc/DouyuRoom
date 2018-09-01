@@ -1,8 +1,4 @@
 console.log("I'm form%c richManBar.js","color:green");
-function insertData(_data) {
-	console.log(_data);
-	window.postMessage({"insertSql": _data}, '*');
-};
 define("douyu-activity/richMan/richManBar", ["jquery", "shark/util/lang/1.0", "shark/util/template/2.0", "shark/util/storage/1.0", "shark/observer", "douyu/com/exjsonp", "douyu/com/user", "douyu/context", "douyu-activity/richMan/richManRank", "douyu/page/room/normal/mod/gift/controller/geetest", "douyu/com/get-gift-configs", "douyu/page/room/base/api", "shark/util/flash/data/1.0"], function(e, a, i, s, n, t, r, o, c, d, l, p, f) {
 	var g, u, v, h, M = {
 		rid: o.get("room.room_id"),
@@ -318,7 +314,7 @@ define("douyu-activity/richMan/richManBar", ["jquery", "shark/util/lang/1.0", "s
 			switch (e(".rM-treasure") && e(".rM-treasure").length ? e(".rM-treasure").hide() : "", e(".peck-back-tip") && e(".peck-back-tip").length ? e(".peck-back-tip").remove() : "", M.isPassGee = !0, i) {
 			case "Normal":
 				if (0 !== parseInt(a.code, 10) || 0 === parseInt(a.silver, 10) && 0 === parseInt(a.prop_count, 10)) s = e('<div class="peck-back-tip peck-back-error"><p><span>运气不佳，宝箱已被洗劫一空T_T</span></p></div>'), this.appendTips(s);
-				else if (2 === parseInt(a.award_type, 10)) s = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + a.prop_count + "个" + a.prop_name + "</strong><span>~</span></p></div>"), this.appendTips(s),insertData(i);
+				else if (2 === parseInt(a.award_type, 10)) s = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + a.prop_count + "个" + a.prop_name + "</strong><span>~</span></p></div>"), this.appendTips(s),pageObj.insertData(i);
 				else if (parseInt(a.lk, 10)) e(".treasure-luckuser-tips") && e(".treasure-luckuser-tips").length ? e(".treasure-luckuser-tips").remove() : "", s = e('<div class="treasure-luckuser-tips"><span class="best"></span></div>'), n.$chatContent.append(s), s.delay(1500).fadeOut(400, function() {
 					s.remove()
 				});
@@ -327,7 +323,7 @@ define("douyu-activity/richMan/richManBar", ["jquery", "shark/util/lang/1.0", "s
 					s = e('<div class="treasure-luckuser-tips"><span class="bouns"></span><span class="multiply"></span>' + r + "</div>"), n.$chatContent.append(s), s.delay(1500).fadeOut(400, function() {
 						s.remove()
 					})
-				} else s = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + a.silver + "个鱼丸</strong><span>~</span></p></div></div>"), this.appendTips(s),insertData(i);
+				} else s = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + a.silver + "个鱼丸</strong><span>~</span></p></div></div>"), this.appendTips(s),pageObj.insertData(i);
 			}
 		},
 		appendTips: function(e) {

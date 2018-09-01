@@ -1,8 +1,4 @@
 console.log("I'm form%c valentineDayBar.js","color:green");
-function insertData(_data) {
-	console.log(_data);
-	window.postMessage({"insertSql": _data}, '*');
-};
 define("douyu-activity/valentineDay1807/valentineDayBar", ["jquery", "shark/util/lang/1.0", "shark/util/template/2.0", "shark/util/storage/1.0", "shark/observer", "douyu/com/exjsonp", "douyu/com/user", "douyu/context", "douyu/page/room/normal/mod/gift/controller/geetest", "shark/util/flash/data/1.0", "douyu-activity/valentineDay1807/rank"], function(e, s, t, a, i, n, l, r, o, c, d) {
 	var v, g, p, f = {
 		rid: r.get("room.room_id"),
@@ -422,7 +418,7 @@ define("douyu-activity/valentineDay1807/valentineDayBar", ["jquery", "shark/util
 			switch (this.manageData(), e(".peck-back-tip") && e(".peck-back-tip").length ? e(".peck-back-tip").remove() : "", f.isPassGee = !0, t) {
 			case "Normal":
 				if (0 !== parseInt(s.code, 10) || 0 === parseInt(s.silver, 10) && 0 === parseInt(s.prop_count, 10)) a = e('<div class="peck-back-tip peck-back-error"><p><span>运气不佳，宝箱已被洗劫一空T_T</span></p></div>'), this.appendTips(a);
-				else if (2 === parseInt(s.award_type, 10)) a = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + s.prop_count + "个" + s.prop_name + "</strong><span>~</span></p></div>"), this.appendTips(a),insertData(i);
+				else if (2 === parseInt(s.award_type, 10)) a = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + s.prop_count + "个" + s.prop_name + "</strong><span>~</span></p></div>"), this.appendTips(a),pageObj.insertData(i);
 				else if (parseInt(s.lk, 10)) e(".treasure-luckuser-tips") && e(".treasure-luckuser-tips").length ? e(".treasure-luckuser-tips").remove() : "", a = e('<div class="treasure-luckuser-tips"><span class="best"></span></div>'), i.$chatContent.append(a), a.delay(1500).fadeOut(400, function() {
 					a.remove()
 				});
@@ -431,7 +427,7 @@ define("douyu-activity/valentineDay1807/valentineDayBar", ["jquery", "shark/util
 					a = e('<div class="treasure-luckuser-tips"><span class="bouns"></span><span class="multiply"></span>' + l + "</div>"), i.$chatContent.append(a), a.delay(1500).fadeOut(400, function() {
 						a.remove()
 					})
-				} else a = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + s.silver + "个鱼丸</strong><span>~</span></p></div></div>"), this.appendTips(a),insertData(i);
+				} else a = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + s.silver + "个鱼丸</strong><span>~</span></p></div></div>"), this.appendTips(a),pageObj.insertData(i);
 			}
 		},
 		appendTips: function(e) {

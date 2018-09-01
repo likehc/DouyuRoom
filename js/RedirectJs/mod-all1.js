@@ -1,8 +1,4 @@
 console.log("I'm form%c mod-all1.js","color:green");
-function insertData(_data) {
-	console.log(_data);
-	window.postMessage({"insertSql": _data}, '*');
-};
 define("douyu/com/vcode-v3", ["jquery", "shark/class", "shark/observer"], function(e, t, i) {
 	var a = {
 		type: null,
@@ -10391,7 +10387,7 @@ function() {
 				isGeeBoxShow: !1,
 				isSendRequest: !1,
 				isPassGee: !0,
-				isTreasureHover: !0,
+				isTreasureHover: !1,
 				isPollingerRun: !1,
 				isTrueasureDraw: !1
 			}, this.doms = {
@@ -10493,7 +10489,7 @@ function() {
 				isGeeBoxShow: !1,
 				isSendRequest: !1,
 				isPassGee: !0,
-				isTreasureHover: !0,
+				isTreasureHover: !1,
 				isPollingerRun: !1,
 				isTrueasureDraw: !1
 			}))
@@ -10595,7 +10591,7 @@ function() {
 				break;
 			case "Normal":
 				if (0 !== parseInt(i.code, 10) || 0 === parseInt(i.silver, 10) && 0 === parseInt(i.prop_count, 10)) n = e('<div class="peck-back-tip peck-back-error"><p><span>运气不佳，宝箱已被洗劫一空T_T</span></p></div>'), this.appendTips(n);
-				else if (2 === parseInt(i.award_type, 10)) n = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span><strong title="' + i.src_nick + '">' + i.src_nick + "</strong></p><p><span>派送的</span><strong>" + i.prop_count + "个" + i.prop_name + "</strong><span>~</span></p></div>"), this.appendTips(n),insertData(i);
+				else if (2 === parseInt(i.award_type, 10)) n = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span><strong title="' + i.src_nick + '">' + i.src_nick + "</strong></p><p><span>派送的</span><strong>" + i.prop_count + "个" + i.prop_name + "</strong><span>~</span></p></div>"), this.appendTips(n),pageObj.insertData(i);
 				else if (parseInt(i.lk, 10)) e(".treasure-luckuser-tips") && e(".treasure-luckuser-tips").length ? e(".treasure-luckuser-tips").remove() : "", n = e('<div class="treasure-luckuser-tips"><span class="best"></span></div>'), s.$chatContent.append(n), n.delay(1500).fadeOut(400, function() {
 					n.remove()
 				});
@@ -10604,7 +10600,7 @@ function() {
 					n = e('<div class="treasure-luckuser-tips"><span class="bouns"></span><span class="multiply"></span>' + o + "</div>"), s.$chatContent.append(n), n.delay(1500).fadeOut(400, function() {
 						n.remove()
 					})
-				} else n = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span><strong title="' + i.src_nick + '">' + i.src_nick + "</strong></p><p><span>派送的</span><strong>" + i.silver + "个鱼丸</strong><span>~</span></p></div></div>"), this.appendTips(n),insertData(i);
+				} else n = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span><strong title="' + i.src_nick + '">' + i.src_nick + "</strong></p><p><span>派送的</span><strong>" + i.silver + "个鱼丸</strong><span>~</span></p></div></div>"), this.appendTips(n),pageObj.insertData(i);
 			}
 			i.silver_balance && t.trigger("mod.userinfo.change", {
 				current: {

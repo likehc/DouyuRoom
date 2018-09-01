@@ -6,13 +6,8 @@ var app = new Vue({
 	data: {
 		message:'基础数据',
 		tableData3:[],
-		pickerOptions1: {
-			disabledDate(time) {
-				return time.getTime() > Date.now();
-			},
-		},
 		value1: new Date(),
-		value2: new Date(),
+		value2: new Date()
 	},
 	methods:{
 		onClick: function () {
@@ -27,34 +22,67 @@ var app = new Vue({
 				this.$message('结束日期不能小于开始日期');
 				return;
 			}
-			bg.getDataBetweenDay(startDate,endDate);
-			var getbaseDataTimerindex =0;
-			var getbaseDataTimer=setInterval(function(){
-				if (getbaseDataTimerindex>=20) {
-					window.clearInterval(getbaseDataTimer);
-					app.$message('数据请求超时！');
-					return;
-				}
-				if (bg.SqlDate.length >0) {
-					SqlDate1 = JSON.parse(bg.SqlDate).Data;
-					bg.SqlDate=[];
-					var sqlTable = JSON.parse(SqlDate1);
-					app.tableData3 =sqlTable;
-					var huoJian =0;
-					var feJi =0;
-					var yuWan =0;
-					var wen=0
-					for (var i = 0; i < sqlTable.length; i++) {
-						if (sqlTable[i].award_type == 1) {huoJian++}
-						if (sqlTable[i].award_type == 2) {feJi++}
-						yuWan = yuWan+parseInt(sqlTable[i].silver);
-						wen = wen+parseInt(sqlTable[i].prop_count);
+			if (localStorage.insertType ==2) {
+				bg.getDataBetweenDay(startDate,endDate);
+				var getbaseDataTimerindex =0;
+				var getbaseDataTimer=setInterval(function(){
+					if (getbaseDataTimerindex>=20) {
+						window.clearInterval(getbaseDataTimer);
+						app.$message('数据请求超时！');
+						return;
 					}
-					window.clearInterval(getbaseDataTimer);								
-				}
-				app.message = "火箭："+ huoJian + "&emsp;飞机：" +feJi +"&emsp;鱼丸："+yuWan+"&emsp;稳："+wen;
-				getbaseDataTimerindex++;
-			},500);			
+					if (bg.SqlDate.length >0) {
+						SqlDate1 = JSON.parse(bg.SqlDate).Data;
+						bg.SqlDate=[];
+						var sqlTable = JSON.parse(SqlDate1);
+						app.tableData3 =sqlTable;
+						var huoJian =0;
+						var feJi =0;
+						var yuWan =0;
+						var wen=0
+						for (var i = 0; i < sqlTable.length; i++) {
+							if (sqlTable[i].award_type == 1) {huoJian++}
+							if (sqlTable[i].award_type == 2) {feJi++}
+							yuWan = yuWan+parseInt(sqlTable[i].silver);
+							wen = wen+parseInt(sqlTable[i].prop_count);
+						}
+						window.clearInterval(getbaseDataTimer);
+					}
+					app.message = "火箭："+ huoJian + "&emsp;飞机：" +feJi +"&emsp;鱼丸："+yuWan+"&emsp;稳："+wen;
+					getbaseDataTimerindex++;
+				},500);	
+			}
+			if (localStorage.insertType ==1) {
+				bg.treasure.constructor.find(startDate,endDate);
+				var getbaseDataTimerindex =0;
+				var getbaseDataTimer=setInterval(function(){
+					if (getbaseDataTimerindex>=20) {
+						window.clearInterval(getbaseDataTimer);
+						app.$message('数据请求超时！');
+						return;
+					}
+					var sqlTable = bg.dataFromIndexDb;
+					if (sqlTable.length>0) {
+						app.tableData3 =sqlTable;
+						var huoJian =0;
+						var feJi =0;
+						var yuWan =0;
+						var wen=0
+						for (var i = 0; i < sqlTable.length; i++) {
+							if (sqlTable[i].award_type == 1) {huoJian++}
+							if (sqlTable[i].award_type == 2) {feJi++}
+							if (!isNaN(parseInt(sqlTable[i].silver))) {
+								yuWan = yuWan+parseInt(sqlTable[i].silver);
+							}
+							if (!isNaN(parseInt(sqlTable[i].prop_count))) {
+								wen = wen+parseInt(sqlTable[i].prop_count);
+							}						
+						}
+						app.message = "火箭："+ huoJian + "&emsp;飞机：" +feJi +"&emsp;鱼丸："+yuWan+"&emsp;稳："+wen;
+					}					
+					window.clearInterval(getbaseDataTimer);
+				},500);	
+			}
 		},
 		judge:function(row, column) { 
 			var type = row[column.property];
@@ -73,4 +101,4 @@ var app = new Vue({
 function CompareDate(d1,d2)
 {
 	return ((new Date(d1.replace(/-/g,"\/"))) > (new Date(d2.replace(/-/g,"\/"))));
-}
+};

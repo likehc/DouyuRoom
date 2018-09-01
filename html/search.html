@@ -4,9 +4,7 @@
 	<meta charset="UTF-8">
 	<title>宝箱数据详细查询</title>	
 	<!-- 引入样式 -->
-	<link rel="stylesheet" href="../node_modules/element-ui/lib/theme-default/index.css">
-	<!-- <link rel="stylesheet" href="node_modules\element-ui\lib\theme-chalk\index.css"> -->
-
+	<link rel="stylesheet" href="../node_modules/element-ui/lib/theme-chalk/index.css">
 <style>
   .el-row {
     margin-bottom: 20px;
@@ -44,7 +42,7 @@
 					<span class="demonstration">开始时间</span>
 					<el-date-picker v-model="value1" type="date" placeholder="选择日期">
 					</el-date-picker>
-				 </div>						
+				 </div>
 			</el-col>
 			<el-col :span="5">
 				<div class="block">
@@ -58,7 +56,6 @@
 			</el-col>
 			<el-col :span="5"><div class="grid-content bg-purple" v-html="message"></div></el-col>
 		</el-row>
-
 		<template>
 		  <el-table :data="tableData3" style="width: 100%" height="530">
 		  	<el-table-column fixed type="index" label="ID" width="60">
@@ -71,23 +68,18 @@
 		    </el-table-column>
 		    <el-table-column prop="award_type"  label="类型" :formatter="judge" width="80">		    	
 		    </el-table-column>
-		    <!-- <el-table-column prop="award_type" label="类型" width="120">		    	
-		    </el-table-column> -->
 		    <el-table-column prop="silver" label="鱼丸(个数)" width="105">
 		    </el-table-column>
 		    <el-table-column prop="prop_count" label="稳(个数)" width="105">
 		    </el-table-column>
 		  </el-table>
-		</template>
-
-		
-		
+		</template>	
 	</div>
 </body>
 <!-- 先引入 Vue -->
 <script src="../node_modules/vue.js"></script>
 <!-- 引入组件库 -->
 <script src="../node_modules/element-ui/lib/index.js"></script>
-<script src="../js/QuoteJs/moment.js"></script>
+<script src="../js/QuoteJs/moment.min.js"></script>
 <script src="../js/BaseJs/search.js"></script>
 </html>

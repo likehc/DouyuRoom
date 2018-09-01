@@ -45,7 +45,7 @@ function createShotMsgDiv() {
 		input.setAttribute("id","inputTag");
 		input.setAttribute("cols","40");
 		input.setAttribute("rows","2");
-		input.setAttribute("placeholder","请输入内容,回车添加");
+		input.setAttribute("placeholder","输入内容,回车添加。双击条目执行删除。拖拽调整位置。");
 		shotDiv.appendChild(input);
 		shieGiftFr[0].appendChild(shotDiv);
 		var timeInd = null;

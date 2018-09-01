@@ -9,6 +9,8 @@ function removeAds() {
 		}
 		youhua();
 		delayInset();
+		removeMayBtnAd();
+		$("#foodBoom").remove();
 		$("#left").remove();	//左边侧栏
 		$("#t-adv-container").remove();	//视频内 广告
 		$(".recommendApp-cbeff7").remove();	//下载斗鱼APP
@@ -68,7 +70,7 @@ function delayInset() {
 	var fansRank = document.getElementsByClassName("fansRankClass");
 	if(fansRank.length <=0){
 		var span =document.createElement("span");
-		span.innerHTML = "排行on";
+		span.innerHTML = "排行↑↑";
 		var ii =document.createElement("i");
 		ii.setAttribute("class","icon");
 		var a =document.createElement("a");
@@ -81,12 +83,12 @@ function delayInset() {
 			document.getElementsByClassName("chat-cls")[0].appendChild(a);
 			document.getElementById("fansRankId").onclick = function(){
 				var fansRan =$("#fansRankId span");
-				if (fansRan.text() == "排行off") {
-					fansRan.text("排行on");
+				if (fansRan.text() == "排行↓↓") {
+					fansRan.text("排行↑↑");
 					$("#js-fans-rank").show();	//粉丝贡献榜
 					$("#js-chat-cont").css("top","217px");	//"217px"
 				}else{
-					fansRan.text("排行off");
+					fansRan.text("排行↓↓");
 					$("#js-fans-rank").hide();	//粉丝贡献榜
 					$("#js-chat-cont").css("top","2px");	//升高弹幕区 //"217px"
 				}
@@ -165,6 +167,20 @@ function getRoomInfo() {
 			$(".text").text(t);
 			$(".anchor-pic.fl").attr("title","开播时间:"+ roomInfo.data.start_time);
 		}
+	}
+};
+//观看时长领礼包的广告
+function removeMayBtnAd() {
+	try{
+		document.getElementsByClassName("may-btn")[0].onclick = function(){
+			setTimeout(function(){
+				try{
+					document.getElementsByClassName("v3-sign")[0].remove();
+				}catch(err){
+				}
+			},200);	
+		};		
+	}catch(err){		
 	}
 };
 
