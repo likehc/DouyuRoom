@@ -30,6 +30,7 @@ function getBoxInfo() {
 
 function doTreasure() {
 	$(".live-room-normal-right.fl").remove();	//删除直播公告
+	$("#js-live-room-normal-equal-left").remove();	//视频下方广告
 	$("#js-fans-rank").remove();	//粉丝贡献榜
 	$("#js-chat-cont").css("top","2px");	//升高弹幕区
 	giftBatterBoxRemove();

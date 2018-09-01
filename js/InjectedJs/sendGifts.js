@@ -1,6 +1,9 @@
-document.getElementsByClassName("backpack-btn")[0].onclick = function(){
-	insertSendGifts();
-};
+if (document.getElementsByClassName("backpack-btn").length>0) {
+	document.getElementsByClassName("backpack-btn")[0].onclick = function(){
+		insertSendGifts();
+	};
+}
+
 function insertSendGifts() {
 	setTimeout(function () {
 		if ($("#giftsSpan").length<=0) {
@@ -16,7 +19,6 @@ function insertSendGifts() {
 	},300);
 };
 
-/////
 var giftsTab;
 function createGiftTab() {
 	var giftsDiv =document.createElement("div");
@@ -50,15 +52,13 @@ function createGiftTab() {
 		
 		setTimeout(function () {
 			getGiftsTabVue();
-		},200);
-		
+		},200);		
 	}
 };
 var giftsTab;
 function getGiftsTabVue() {
 	giftsTab = new Vue({
 		el: '#giftsT',
-
 		data: {
 			// inputTimer:"500",
 			giftTableData: [

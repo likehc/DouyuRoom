@@ -10,11 +10,12 @@ function removeAds() {
 		youhua();
 		delayInset();
 		removeMayBtnAd();
+		clearMediaBottom();	//清除视频下方 保留 竞猜
 		$("#foodBoom").remove();
 		$("#left").remove();	//左边侧栏
 		$("#t-adv-container").remove();	//视频内 广告
 		$(".recommendApp-cbeff7").remove();	//下载斗鱼APP
-		$("#js-live-room-normal-equal-left").remove();	//视频下方广告
+		//$("#js-live-room-normal-equal-left").remove();	//视频下方广告
 		$(".yuba-group-active").remove();	//悬浮主播头像，小组动态
 		$(".recording-wrap").remove();	//TA的视频
 		$(".sq-wrap").remove();	//分享按钮
@@ -125,6 +126,7 @@ function delayInset() {
 		a.innerHTML = "on";
 		if ($(".column-cotent").text() =="") {
 			$(".live-room-normal-right.fl").hide();	//直播公告
+			$("#js-live-room-normal-equal-left").hide();//竞猜
 			a.innerHTML = "off";
 		}
 		a.setAttribute("style","font-weight:bold");
@@ -138,9 +140,11 @@ function delayInset() {
 				if (roomAnnounce.text() == "on") {
 					roomAnnounce.text("off");
 					$(".live-room-normal-right.fl").hide();
+					$("#js-live-room-normal-equal-left").hide();	//竞猜
 				}else{
 					roomAnnounce.text("on");
 					$(".live-room-normal-right.fl").show();
+					$("#js-live-room-normal-equal-left").show();
 				}
 			};
 		}		
@@ -193,3 +197,15 @@ $(document).ready(function(){
 		getRoomInfo();
 	});
 });
+
+//清除视频下方 保留 竞猜
+function clearMediaBottom(){
+	var roomLeft = $("#js-live-room-normal-equal-left").children('div');
+	if (roomLeft.length>0) {
+		for (var i = 0; i < roomLeft.length; i++) {
+			if (roomLeft[i].getAttribute("id") != "js-room-guess-panel") {
+				roomLeft[i].remove();
+			}
+		}
+	}
+};
