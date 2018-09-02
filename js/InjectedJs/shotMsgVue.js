@@ -23,7 +23,7 @@ $('#tags').click(function(ev) {
 		if (target.nodeName.toLowerCase() == 'span' ){
 			if (isTagDel) return;
 			var msg =target.innerText.trim();
-			pageObj.sendMsg(msg);
+			PageObj.sendMsg(msg);
 			$("#shotMsg").hide();
 		}
 	},100);
@@ -39,7 +39,7 @@ $('#tags').dblclick(function(ev) {
 			// var msg =target.innerText.trim();
 			// sendMsg(msg);
 			// $("#shotMsg").hide();
-		}		
+		}
 	}
 });
 function initializeTag() {
@@ -119,7 +119,7 @@ function saveTags(newTag) {
 function bindTagSave() {
 	var tagSave =$("#tagSave");
 	if (tagSave.length>0){
-		if (!pageObj.isBindFunction(tagSave,"click")) {
+		if (!PageObj.isBindFunction(tagSave,"click")) {
 			document.getElementById("tagSave").onclick = function(){
 				if (tagSave.text().trim() == "修改") {
 					isTagDel =true;

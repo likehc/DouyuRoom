@@ -1,9 +1,10 @@
-var basePath="chrome-extension://jbcfompgackcpnfcphdhpepcdnbbjfnh/";
-insertJsCss(basePath+"css/shotmsg.css","css");
-insertJsCss(basePath+"node_modules/element-ui/lib/theme-chalk/index.css","css");
-insertJsCss(basePath+"node_modules/vue.js");
-insertJsCss(basePath+"node_modules/element-ui/lib/index.js");
-insertJsCss("https://cdn.staticfile.org/jqueryui/1.12.1/jquery-ui.min.js");
+// var ExtensionUrl="chrome-extension://jbcfompgackcpnfcphdhpepcdnbbjfnh/";
+var ExtensionUrl="chrome-extension://"+chrome.runtime.id+"/";
+insertJsCss(ExtensionUrl+"css/shotmsg.css","css");
+insertJsCss(ExtensionUrl+"node_modules/element-ui/lib/theme-chalk/index.css","css");
+insertJsCss(ExtensionUrl+"node_modules/vue.js");
+insertJsCss(ExtensionUrl+"node_modules/element-ui/lib/index.js");
+insertJsCss(ExtensionUrl+"js/QuoteJs/jquery-ui.min.js");
 // insertJsCss("https://unpkg.com/element-ui/lib/theme-chalk/index.css","css")
 // insertJsCss("https://unpkg.com/vue/dist/vue.js")
 // insertJsCss("https://unpkg.com/element-ui/lib/index.js")
@@ -89,5 +90,5 @@ function insertJsCss(filePath,isCss) {
 self.setTimeout(function() {
 	roomId = roomObj.getRoomId();
 	if (roomId ==0) {return}
-	insertJsCss(basePath+"js/InjectedJs/shotMsgVue.js");
-},5000);
+	insertJsCss(ExtensionUrl+"js/InjectedJs/shotMsgVue.js");
+},3000);

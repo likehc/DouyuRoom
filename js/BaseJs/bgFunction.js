@@ -141,8 +141,11 @@ function setShotMsgArr(tagStr,_roomId) {
 		localStorage.shotMsgArr = tagStr;
 	}
 }
-function getExtensionId() {
-	return chrome.runtime.id;
+function getExtensionInfo(s) {
+	var extInfo = new Object()
+	extInfo.id=chrome.runtime.id;
+	s=extInfo;
+	return extInfo;
 }
 
 /*
@@ -180,16 +183,16 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 					setShotMsgArr(message.data);
 				}
 			break;
-			case "getExtensionId":
-				result = getExtensionId();
+			case "getExtensionInfo":
+				result = getExtensionInfo(message.data);
 			break;
-		}	
+		}
 	}
 	// setTimeout(function(){
 	// 	sendResponse(result);
 	// },400);
 	//return true;
-	sendResponse(result);	
+	sendResponse(result);
 });
 //tab 激活事件
 // chrome.tabs.onActivated.addListener(function(activeInfo){

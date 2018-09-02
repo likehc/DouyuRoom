@@ -1,3 +1,4 @@
+//popup 调用了getRoomId
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse)
 {
 	var result;
@@ -29,12 +30,11 @@ window.addEventListener("message", function(e)
 	if (e.data.hasOwnProperty("insertSql") ) {
 		var data = e.data.insertSql;
 		data.roomId = roomObj.getRoomId();
-		var s =RoomObj.getDataFormBackground({type:"function",functionName:"insertSql",data});
+		RoomObj.getDataFormBackground({type:"function",functionName:"insertSql",data});
 	}
-	// if (e.data.hasOwnProperty("getShotMsgArr") ) {
-	// 	console.log("-----onmessage-");
-	// 	var shotMsgArr =RoomObj.getDataFormBackground({type:"function",functionName:"getShotMsgArr"});
-	// 	// setTimeout(function() {insertJsCss(basePath+"js/InjectedJs/shotMsgVue.js");},6000);return
-	// 	var t =self.setTimeout("return shotMsgArr ",500)
-	// }
 }, false);
+
+//延迟省,发送 扩展 id
+setTimeout(function() {
+	window.postMessage({"getExtensionId": chrome.runtime.id}, '*');
+}, 2000);

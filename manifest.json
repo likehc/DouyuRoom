@@ -27,6 +27,7 @@
 		"webRequest",
 		"webRequestBlocking",
 		"tabs",
+		"notifications",
 		"*://*/*",
 		"<all_urls>"
 	],

@@ -418,7 +418,7 @@ define("douyu-activity/valentineDay1807/valentineDayBar", ["jquery", "shark/util
 			switch (this.manageData(), e(".peck-back-tip") && e(".peck-back-tip").length ? e(".peck-back-tip").remove() : "", f.isPassGee = !0, t) {
 			case "Normal":
 				if (0 !== parseInt(s.code, 10) || 0 === parseInt(s.silver, 10) && 0 === parseInt(s.prop_count, 10)) a = e('<div class="peck-back-tip peck-back-error"><p><span>运气不佳，宝箱已被洗劫一空T_T</span></p></div>'), this.appendTips(a);
-				else if (2 === parseInt(s.award_type, 10)) a = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + s.prop_count + "个" + s.prop_name + "</strong><span>~</span></p></div>"), this.appendTips(a),pageObj.insertData(i);
+				else if (2 === parseInt(s.award_type, 10)) a = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + s.prop_count + "个" + s.prop_name + "</strong><span>~</span></p></div>"), this.appendTips(a),PageObj.insertData(i);
 				else if (parseInt(s.lk, 10)) e(".treasure-luckuser-tips") && e(".treasure-luckuser-tips").length ? e(".treasure-luckuser-tips").remove() : "", a = e('<div class="treasure-luckuser-tips"><span class="best"></span></div>'), i.$chatContent.append(a), a.delay(1500).fadeOut(400, function() {
 					a.remove()
 				});
@@ -427,7 +427,7 @@ define("douyu-activity/valentineDay1807/valentineDayBar", ["jquery", "shark/util
 					a = e('<div class="treasure-luckuser-tips"><span class="bouns"></span><span class="multiply"></span>' + l + "</div>"), i.$chatContent.append(a), a.delay(1500).fadeOut(400, function() {
 						a.remove()
 					})
-				} else a = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + s.silver + "个鱼丸</strong><span>~</span></p></div></div>"), this.appendTips(a),pageObj.insertData(i);
+				} else a = e('<div class="peck-back-tip peck-back-success"><p><span>恭喜您，领取了</span></p><p><strong>' + s.silver + "个鱼丸</strong><span>~</span></p></div></div>"), this.appendTips(a),PageObj.insertData(i);
 			}
 		},
 		appendTips: function(e) {

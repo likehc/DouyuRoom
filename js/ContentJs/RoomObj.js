@@ -121,22 +121,7 @@ RoomObj.sendMsg = function (s) {
 	document.getElementsByClassName('b-btn')[0].click();
 }
 
-/* 
-*	与后台通讯方法
-*	_msgType 判断方法法。 eg.{type:"function",functionName:"getRooms"}
-*	_obj 存放返回值的对象。
-*/
-RoomObj.getDataFormBackground = function(_msgType,_obj) {
-	chrome.runtime.sendMessage(
-		_msgType,
-		function(response) {
-			try{
-				_obj.data = response;
-			}catch(err){
-			}
-		}
-	);
-};
+
 //在页面插入js 或css ，当插入Css时，请确保isCss值为"css"
 RoomObj.insertCss = function(filePath) {
 	var hm= document.createElement("link");
@@ -184,4 +169,21 @@ RoomObj.isBindFunction = function(dom,funcName) {
 	}else{
 		return false;	//未绑定
 	}
+};
+
+/* 
+*	与后台通讯方法
+*	_msgType 判断方法法。 eg.{type:"function",functionName:"getRooms"}
+*	_obj 存放返回值的对象。
+*/
+RoomObj.getDataFormBackground = function(_msgType,_obj) {
+	chrome.runtime.sendMessage(
+		_msgType,
+		function(response) {
+			try{
+				_obj.data = response;
+			}catch(err){
+			}
+		}
+	);
 };

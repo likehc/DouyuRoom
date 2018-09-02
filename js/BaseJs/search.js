@@ -78,9 +78,10 @@ var app = new Vue({
 								wen = wen+parseInt(sqlTable[i].prop_count);
 							}						
 						}
-						app.message = "火箭："+ huoJian + "&emsp;飞机：" +feJi +"&emsp;鱼丸："+yuWan+"&emsp;稳："+wen;
+						window.clearInterval(getbaseDataTimer);
 					}					
-					window.clearInterval(getbaseDataTimer);
+					app.message = "火箭："+ huoJian + "&emsp;飞机：" +feJi +"&emsp;鱼丸："+yuWan+"&emsp;稳："+wen;
+					getbaseDataTimerindex++;
 				},500);	
 			}
 		},
