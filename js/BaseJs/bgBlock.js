@@ -1,6 +1,6 @@
 // https://rpic.douyucdn.cn/asrpic/*.jpg // 房间外显图片一定别阻止
 var blockUrls =[
-	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/app-firstscreen-all.js?*",	//用于替换本地js
+	// "https://shark.douyucdn.cn/app/douyu/js/page/room/normal/app-firstscreen-all.js?*",	//用于替换本地js
 	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js?v*",	//用于替换本地js
 	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all2.js?v*",	//用于替换本地js
 	"https://shark.douyucdn.cn/app/douyu/activity/js/richMan/richManBar.js?*",	//用于替换本地js
@@ -25,9 +25,9 @@ var blockUrls =[
 ];
 var callback =function(details){
 	//v8.274
-	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/app-firstscreen-all.js")>-1) {
-		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/app-firstscreen-all.js")};
-	}
+	// if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/app-firstscreen-all.js")>-1) {
+	// 	return {redirectUrl: chrome.extension.getURL("js/RedirectJs/app-firstscreen-all.js")};
+	// }
 	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js")>-1) {
 		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/mod-all1.js")};		
 	}
