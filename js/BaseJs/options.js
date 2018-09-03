@@ -69,6 +69,18 @@ function showMsgClick() {
 		}
 	};
 };
+//开启抢宝箱模式 
+var robTreasure;
+function robTreasureClick() {
+	if (robTreasure !=null &&robTreasure !=undefined && robTreasure.constructor == NodeList) {
+		for (var i = 0; i < robTreasure.length; i++) {
+			if (robTreasure[i].checked == true) {
+				localStorage.robTreasure =robTreasure[i].value;
+				alert('保存成功!');
+			}
+		}
+	};
+};
 
 $(document).ready(function(){
 	insertType = document.getElementsByName('insertType');
@@ -81,9 +93,15 @@ $(document).ready(function(){
 
 	showMsg = document.getElementsByName('showMsg');
 	document.getElementById('showMsgClick').onclick = showMsgClick;
-	//初始化 Radio 的选中值
 	var showMsgVaule =localStorage.showMsg;
 	if (showMsgVaule != null && showMsgVaule != undefined) {
 		showMsg[showMsgVaule].checked = true;
+	};
+
+	robTreasure = document.getElementsByName('robTreasure');
+	document.getElementById('robTreasureClick').onclick = robTreasureClick;
+	var robTreasureVaule =localStorage.robTreasure;
+	if (robTreasureVaule != null && robTreasureVaule != undefined) {
+		robTreasure[robTreasureVaule].checked = true;
 	};
 });

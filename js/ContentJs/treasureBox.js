@@ -3,10 +3,16 @@ var treasureMsg = new Object;
 if (treasureMsg.data == undefined) {	//从 localStorage.RoomArr 获取要过滤的房间
 	RoomObj.getDataFormBackground({type:"function",functionName:"getTreasureMsg"},treasureMsg);
 }
-function getBoxInfo() {
+var robTreasure = new Object;
+if (robTreasure.data == undefined) {	//从 localStorage.RoomArr 获取要过滤的房间
+	RoomObj.getDataFormBackground({type:"function",functionName:"getRobTreasure"},robTreasure);
+}
+function getBoxInfo() {	
 	try{
 		if ($("#treasure").css("display") == "block") { //有无宝箱, "none"无，  "block"有			
-			doTreasure();
+			if (robTreasure.data == 1) {
+				doTreasure();	//清除页面，移除播放器
+			}
 			var openBoxTimer=setInterval(function(){
 				if($(".js-danmu-reconnect.highLight").text()=="点击重新连接弹幕"){	//此页面已在别处打开
 					window.close();
@@ -20,7 +26,9 @@ function getBoxInfo() {
 						$(".geetest_radar_tip").click();	//点击按钮进行验证
 					}
 				}else{
-					window.close();
+					if (robTreasure.data == 1) {
+						window.close();
+					}
 				}
 			},800);
 		}

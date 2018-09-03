@@ -18,12 +18,24 @@ function newRoom(_id,_des) {
 		return new Room(_id);
 	}
 };
+//插入数据库默认类型 0不保存1.Web Sql 2.MySql
+function initBaseData() {
+	if (localStorage.insertType == undefined || localStorage.insertType == "") {
+		localStorage.insertType = 0;
+	}
+	if (localStorage.mysqlHost == undefined ||localStorage.mysqlHost == "") {
+		localStorage.mysqlHost ="127.0.0.1:8787";
+	}
+	if (localStorage.robTreasure == undefined ||localStorage.robTreasure == "") {
+		localStorage.robTreasure = 1;
+	}
+	if (localStorage.showMsg == undefined ||localStorage.showMsg == "") {
+		localStorage.showMsg = 0;
+	}
+};
+//	初始化 基础数据
+initBaseData();
 
-
-//插入数据库默认类型 0不保存1.Web Sql 2.MySql  
-if (localStorage.insertType == undefined) {
-	localStorage.insertType == 0;
-}
 //共用变量
 var exId;	//扩展程序id
 var tabId;	//当前tab id
@@ -50,19 +62,22 @@ function addRooms(_room,_isAdd) {
 };
 function setLocalStorage(key,value) {
 	localStorage[key]=value;
-}
+};
 function getLocalStorage(key) {
 	return localStorage[key];
-}
+};
 function getRooms(){
 	return (localStorage.RoomArr==undefined||localStorage.RoomArr=="")?[]:JSON.parse(localStorage.RoomArr);
 };
 function getTreasureMsg(){
 	return (localStorage.treasureMsg==undefined||localStorage.treasureMsg=="")?"666":localStorage.treasureMsg;
 };
+function getRobTreasure() {
+	return (localStorage.robTreasure==undefined||localStorage.robTreasure=="")? 0:localStorage.robTreasure;
+};
 var SqlDate =[];
-// var 
-var ws = new WebSocket("ws://localhost:8787");
+var host ="ws://"+localStorage.mysqlHost;
+var ws = new WebSocket(host);
 ws.onclose = function (event) {};
 ws.onerror = function (event) {};
 function setOnmessage() {
@@ -143,13 +158,13 @@ function setShotMsgArr(tagStr,_roomId) {
 	}else{
 		localStorage.shotMsgArr = tagStr;
 	}
-}
+};
 function getExtensionInfo(s) {
 	var extInfo = new Object()
 	extInfo.id=chrome.runtime.id;
 	s=extInfo;
 	return extInfo;
-}
+};
 /*	桌面消息通知
 *	_msg 消息内容
 *	_title 标题
@@ -179,7 +194,7 @@ function myNotification(_msg,_title,_ico,_time){
 			}, time);
 		});
 	}
-}
+};
 /*
 *	如果没有相应的结果,则返回null
 */
@@ -197,6 +212,9 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 				break;
 			case "getTreasureMsg":
 				result = getTreasureMsg();
+				break;
+			case "getRobTreasure":
+				result = getRobTreasure();
 				break;
 			case "insertSql":
 				result = insertSql(message.data);

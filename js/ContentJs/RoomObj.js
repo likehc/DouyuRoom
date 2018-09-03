@@ -48,11 +48,8 @@ function RoomObj() {
 			}
 			document.getElementsByClassName("radiobox")[document.getElementsByClassName("radiobox").length-1].click();
 			document.getElementById("tempRemovePaizi").remove();
-		}catch(err){
-			//catchCode
-			
-		}
-		
+		}catch(err){			
+		}		
 	};
 	//点击相应的牌子
 	this.addPaiZi=function (roomId) {
@@ -111,7 +108,7 @@ RoomObj.getEquationOfTime = function (t) {
 	var seconds=Math.round(leave3/1000);
 	seconds = seconds>=10 ? seconds:"0"+seconds;
 	return hours+":"+minutes+":"+seconds;
-}
+};
 
 /*
 * 	发送弹幕
@@ -119,9 +116,7 @@ RoomObj.getEquationOfTime = function (t) {
 RoomObj.sendMsg = function (s) {
 	document.getElementsByClassName('cs-textarea')[0].value = s;
 	document.getElementsByClassName('b-btn')[0].click();
-}
-
-
+};
 //在页面插入js 或css ，当插入Css时，请确保isCss值为"css"
 RoomObj.insertCss = function(filePath) {
 	var hm= document.createElement("link");
@@ -130,7 +125,7 @@ RoomObj.insertCss = function(filePath) {
 	hm.href=filePath;
 	var s = document.getElementsByTagName("title")[0]; 
 	s.parentNode.insertBefore(hm, s);	
-}
+};
 RoomObj.insertJs = function(filePath,t) {
 	var hm  = document.createElement("script");
 	hm.setAttribute("type","text/javascript");
@@ -143,7 +138,7 @@ RoomObj.insertJs = function(filePath,t) {
 			s.parentNode.insertBefore(hm, s);
 		},t);
 	}
-}
+};
 //yyyy-MM-dd HH-mm-ss
 RoomObj.formatDateTime = function(inputTime) {  
 	var date = new Date(inputTime);
