@@ -46,23 +46,44 @@ if (treasureMsg != undefined) {
 
 //数据库类型
 var insertType;
-function SaveClick() {	
-  if (insertType !=null &&insertType !=undefined && insertType.constructor == NodeList) {
-    for (var i = 0; i < insertType.length; i++) {
-      if (insertType[i].checked == true) {
-        localStorage.insertType =insertType[i].value;
-        alert('保存成功!');
-      }
-    }
-  };
+function insertTypeClick() {
+	if (insertType !=null &&insertType !=undefined && insertType.constructor == NodeList) {
+		for (var i = 0; i < insertType.length; i++) {
+			if (insertType[i].checked == true) {
+				localStorage.insertType =insertType[i].value;
+				alert('保存成功!');
+			}
+		}
+	};
 };
+
+//是否提示抢到的宝箱内容
+var showMsg;
+function showMsgClick() {
+	if (showMsg !=null &&showMsg !=undefined && showMsg.constructor == NodeList) {
+		for (var i = 0; i < showMsg.length; i++) {
+			if (showMsg[i].checked == true) {
+				localStorage.showMsg =showMsg[i].value;
+				alert('保存成功!');
+			}
+		}
+	};
+};
+
 $(document).ready(function(){
 	insertType = document.getElementsByName('insertType');
-	document.getElementById('SaveClick').onclick = SaveClick;
-  	//初始化 Radio 的选中值
+	document.getElementById('insertTypeClick').onclick = insertTypeClick;
+	//初始化 Radio 的选中值
 	var getTrueRadio =localStorage.insertType;
 	if (getTrueRadio != null && getTrueRadio != undefined) {
 		insertType[getTrueRadio].checked = true;
 	};
+
+	showMsg = document.getElementsByName('showMsg');
+	document.getElementById('showMsgClick').onclick = showMsgClick;
+	//初始化 Radio 的选中值
+	var showMsgVaule =localStorage.showMsg;
+	if (showMsgVaule != null && showMsgVaule != undefined) {
+		showMsg[showMsgVaule].checked = true;
+	};
 });
-//数据库类型

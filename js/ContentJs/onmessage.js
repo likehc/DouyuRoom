@@ -30,6 +30,7 @@ window.addEventListener("message", function(e)
 	if (e.data.hasOwnProperty("insertSql") ) {
 		var data = e.data.insertSql;
 		data.roomId = roomObj.getRoomId();
+		data.time = RoomObj.formatDateTime(new Date());
 		RoomObj.getDataFormBackground({type:"function",functionName:"insertSql",data});
 	}
 }, false);

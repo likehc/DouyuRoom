@@ -22,7 +22,7 @@ function newRoom(_id,_des) {
 
 //插入数据库默认类型 0不保存1.Web Sql 2.MySql  
 if (localStorage.insertType == undefined) {
-	localStorage.insertType == 0;	
+	localStorage.insertType == 0;
 }
 //共用变量
 var exId;	//扩展程序id
@@ -31,9 +31,9 @@ var tabId;	//当前tab id
 *	_room为Room的实例,必包含Id
 *	_isAdd 为true时，则为新增，为空时则删除，默认为undefined
 */
-function addRooms(_room,_isAdd) {	
+function addRooms(_room,_isAdd) {
 	var roomObjArr = localStorage.RoomArr==undefined? []:JSON.parse(localStorage.RoomArr);
-	if (_isAdd == true) {		
+	if (_isAdd == true) {
 		roomObjArr.push(_room);
 		var RoomsStr =JSON.stringify(roomObjArr);
 		localStorage.RoomArr =RoomsStr;
@@ -76,7 +76,10 @@ function setOnmessage() {
 	};
 };
 
-function insertSql(_data) {	
+function insertSql(_data) {
+	if (localStorage.showMsg ==1) {
+		showMsg(_data);
+	}	
 	// 写入mysql
 	if (localStorage.insertType ==2) {		
 		//插入数据库
@@ -91,16 +94,16 @@ function insertSql(_data) {
 				ws.send("insertSql##yhc##"+JSON.stringify(_data));
 				setOnmessage();
 				return "inserted!";	
-			}			
+			}
 			return "err";
 		}catch(err){
 			return "err";
 		}
 	}
 	//写入indexedDB
-	if (localStorage.insertType ==1) {		
+	if (localStorage.insertType ==1) {
 		try{
-			Treasure.add(_data);			
+			Treasure.add(_data);
 		}catch(err){
 			return "err";
 		}
@@ -147,7 +150,36 @@ function getExtensionInfo(s) {
 	s=extInfo;
 	return extInfo;
 }
-
+/*	桌面消息通知
+*	_msg 消息内容
+*	_title 标题
+*	_ico 图标
+*	_time 多少毫秒后销毁
+*/
+function myNotification(_msg,_title,_ico,_time){
+	var ico = _ico || "ico/icon.png";
+	var title = _title || "通知";
+	var msg = String(_msg)|| "消息！";
+	var time = _time || 5000;
+	//显示一个桌面通知
+	if(window.webkitNotifications){
+		var notification = window.webkitNotifications.createNotification(ico,title,msg);
+		notification.show();
+		setTimeout(function(){notification.cancel();}, time); 
+	}else if(chrome.notifications){
+		var opt = {
+			type: 'basic',
+			title: title,
+			message: msg,
+			iconUrl:ico,
+		}
+		chrome.notifications.create('', opt, function(id){
+			setTimeout(function(){
+			chrome.notifications.clear(id, function(){});
+			}, time);
+		});
+	}
+}
 /*
 *	如果没有相应的结果,则返回null
 */
@@ -243,3 +275,69 @@ chrome.tabs.onActivated.addListener(function(activeInfo){
 		}
 	});
 });
+
+
+function showMsg(t) {
+/*	var msg =t.roomId +"房间领取 '"+ t.src_nick+"'";
+	if (t.award_type ==1) {
+		msg =msg + "的 火箭 宝箱";
+	}
+	if(t.award_type ==2) {
+		msg =msg + "的 飞机 宝箱";
+	}
+	if (t.silver !="") {
+		msg = msg + t.silver+"个鱼丸.";
+	}
+	if (t.prop_count !="") {
+		msg = msg + t.prop_count+ "个稳.";
+	}*/
+	var tTime = t.time.split(" ")[0];
+	var nowDate = formatDateTime(new Date()).split(" ")[0];
+	var treasureInfo;
+	try{
+		treasureInfo = JSON.parse(localStorage.treasureInfo);
+		if (treasureInfo.Time != nowDate) {
+			treasureInfo = {"Time":tTime,"FeiJi":0,"HuoJian":0,"YuWan":0,"Wen":0};
+			localStorage.treasureInfo =JSON.stringify(treasureInfo);
+		}	
+	}catch(err){
+		treasureInfo= {"Time":tTime,"FeiJi":0,"HuoJian":0,"YuWan":0,"Wen":0};
+		localStorage.treasureInfo =JSON.stringify(treasureInfo);
+	}
+	if (t.award_type ==1) {
+		treasureInfo.HuoJian++;
+	}
+	if(t.award_type ==2) {
+		treasureInfo.FeiJi++;
+	}
+
+	var msg ="领取 ";
+	if (t.silver !="") {
+		msg = msg + t.silver+"个鱼丸.";
+		treasureInfo.YuWan = treasureInfo.YuWan+parseInt(t.silver);
+	}
+	if (t.prop_count !="") {
+		msg = msg + t.prop_count+ "个稳.";
+		treasureInfo.Wen =treasureInfo.Wen+parseInt(t.prop_count);
+	}
+	localStorage.treasureInfo =JSON.stringify(treasureInfo);
+	var title = "火箭:"+treasureInfo.HuoJian+"  飞机:"+treasureInfo.FeiJi+"  鱼丸:"+treasureInfo.YuWan+"  稳:"+treasureInfo.Wen;
+
+	myNotification(msg,title)
+};
+
+function formatDateTime(inputTime) {
+	var date = new Date(inputTime);
+	var y = date.getFullYear();  
+	var m = date.getMonth() + 1;  
+	m = m < 10 ? ('0' + m) : m;  
+	var d = date.getDate();  
+	d = d < 10 ? ('0' + d) : d;  
+	var h = date.getHours();
+	h = h < 10 ? ('0' + h) : h;
+	var minute = date.getMinutes();
+	var second = date.getSeconds();
+	minute = minute < 10 ? ('0' + minute) : minute;  
+	second = second < 10 ? ('0' + second) : second; 
+	return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second; 
+};
