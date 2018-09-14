@@ -227,6 +227,12 @@ function getNameById(id) {
 		case "1795":
 			result="哈啤";
 			break;
+		case "1857":
+			result="星空棒棒糖";
+			break;
+		case "1855":
+			result="星星";
+			break;
 		// case "191":
 		// 	result="鱼丸";
 		// 	break;

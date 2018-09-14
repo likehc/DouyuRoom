@@ -113,9 +113,18 @@ RoomObj.getEquationOfTime = function (t) {
 /*
 * 	发送弹幕
 */
+var roomObjLastMsg;
 RoomObj.sendMsg = function (s) {
+	if (roomObjLastMsg ==s) {
+		if (s.endsWith(".")) {
+			s = s.substring(0, s.length - 1);  
+		}else{
+			s = s+".";
+		}
+	}
 	document.getElementsByClassName('cs-textarea')[0].value = s;
 	document.getElementsByClassName('b-btn')[0].click();
+	roomObjLastMsg = s;
 };
 //在页面插入js 或css ，当插入Css时，请确保isCss值为"css"
 RoomObj.insertCss = function(filePath) {

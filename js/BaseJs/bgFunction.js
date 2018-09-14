@@ -27,7 +27,7 @@ function initBaseData() {
 		localStorage.mysqlHost ="127.0.0.1:8787";
 	}
 	if (localStorage.robTreasure == undefined ||localStorage.robTreasure == "") {
-		localStorage.robTreasure = 1;
+		localStorage.robTreasure = 0;
 	}
 	if (localStorage.showMsg == undefined ||localStorage.showMsg == "") {
 		localStorage.showMsg = 0;
@@ -92,9 +92,7 @@ function setOnmessage() {
 };
 
 function insertSql(_data) {
-	if (localStorage.showMsg ==1) {
-		showMsg(_data);
-	}	
+	showMsg(_data);		
 	// 写入mysql
 	if (localStorage.insertType ==2) {		
 		//插入数据库
@@ -339,9 +337,10 @@ function showMsg(t) {
 		treasureInfo.Wen =treasureInfo.Wen+parseInt(t.prop_count);
 	}
 	localStorage.treasureInfo =JSON.stringify(treasureInfo);
-	var title = "火箭:"+treasureInfo.HuoJian+"  飞机:"+treasureInfo.FeiJi+"  鱼丸:"+treasureInfo.YuWan+"  稳:"+treasureInfo.Wen;
-
-	myNotification(msg,title)
+	var title = "火箭:"+treasureInfo.HuoJian+" 飞机:"+treasureInfo.FeiJi+" 鱼丸:"+treasureInfo.YuWan+" 稳:"+treasureInfo.Wen;
+	if (localStorage.showMsg ==1) {
+		myNotification(msg,title);
+	}	
 };
 
 function formatDateTime(inputTime) {

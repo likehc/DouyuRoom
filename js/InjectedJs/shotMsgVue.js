@@ -87,10 +87,7 @@ function getTagType(s,i) {
 	}	
 };
 
-$(function() {
-	initializeTag();
-	bindTagSave();
-});
+
 
 function saveTags(newTag) {
 	var tags =$("#tags .el-tag");
@@ -145,16 +142,6 @@ function bindTagSave() {
 	}
 };
 
-// 判断元素是否绑定了某方法
-//isBindFunction($("#tags"),"click")
-/*function isBindFunction(dom,funcName) {
-	var events = dom.data("events");
-	if( events && events[funcName] ){
-		return true;	//绑定
-	}else{
-		return false;	//未绑定
-	}
-};*/
 document.getElementById('inputTag').addEventListener('keydown',function(e){
 	if(e.keyCode!=13){
 		return;
@@ -184,4 +171,9 @@ document.getElementById('inputTag').addEventListener('keydown',function(e){
 		e.preventDefault();
 		this.value += '';
 	}	
+});
+$(function() {
+	initializeTag();
+	bindTagSave();
+	
 });

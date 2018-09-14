@@ -2,9 +2,9 @@
 var blockUrls =[
 	// "https://shark.douyucdn.cn/app/douyu/js/page/room/normal/app-firstscreen-all.js?*",	//用于替换本地js
 	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js?v*",	//用于替换本地js
-	"https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all2.js?v*",	//用于替换本地js
-	"https://shark.douyucdn.cn/app/douyu/activity/js/richMan/richManBar.js?*",	//用于替换本地js
-	"https://shark.douyucdn.cn/app/douyu/activity/js/valentineDay1807/valentineDayBar.js?*",	//用于替换本地js
+	// "https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all2.js?v*",	//用于替换本地js
+	// "https://shark.douyucdn.cn/app/douyu/activity/js/richMan/richManBar.js?*",	//用于替换本地js
+	// "https://shark.douyucdn.cn/app/douyu/activity/js/valentineDay1807/valentineDayBar.js?*",	//用于替换本地js
 	// "https://api.geetest.com/ajax.php?gt=*",//打码平台
 
 	"https://sta-op.douyucdn.cn/nggsys/*.jpg",	// 视频框内游戏推广	
@@ -24,23 +24,23 @@ var blockUrls =[
 	"https://ucp.douyucdn.cn/ucp.do",
 ];
 var callback =function(details){
-	//v8.274
+	//v8.352
 	// if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/app-firstscreen-all.js")>-1) {
 	// 	return {redirectUrl: chrome.extension.getURL("js/RedirectJs/app-firstscreen-all.js")};
 	// }
 	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all1.js")>-1) {
 		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/mod-all1.js")};		
 	}
-	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all2.js")>-1) {
-		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/mod-all2.js")};		
-	}
-	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/activity/js/richMan/richManBar.js")>-1) {
-		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/richManBar.js")};
-	}
-	if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/activity/js/valentineDay1807/valentineDayBar.js")>-1) {
-		return {redirectUrl: chrome.extension.getURL("js/RedirectJs/valentineDayBar.js")};
-	}
-	//打码平台
+	// if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/js/page/room/normal/mod-all2.js")>-1) {
+	// 	return {redirectUrl: chrome.extension.getURL("js/RedirectJs/mod-all2.js")};		
+	// }
+	// if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/activity/js/richMan/richManBar.js")>-1) {
+	// 	return {redirectUrl: chrome.extension.getURL("js/RedirectJs/richManBar.js")};
+	// }
+	// if (details.url.indexOf("https://shark.douyucdn.cn/app/douyu/activity/js/valentineDay1807/valentineDayBar.js")>-1) {
+	// 	return {redirectUrl: chrome.extension.getURL("js/RedirectJs/valentineDayBar.js")};
+	// }
+	// // 打码平台
 	// if (details.url.indexOf("https://api.geetest.com/ajax.php?gt=")>-1) {
 	// 	var s = getGtAndChallenge(details.url);
 	// 	console.log(s);

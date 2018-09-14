@@ -1,8 +1,8 @@
 ﻿var roomId=0;
-var treasureMsg = new Object;
-if (treasureMsg.data == undefined) {	//从 localStorage.RoomArr 获取要过滤的房间
-	RoomObj.getDataFormBackground({type:"function",functionName:"getTreasureMsg"},treasureMsg);
-}
+// var treasureMsg = new Object;
+// if (treasureMsg.data == undefined) {	//从 localStorage.RoomArr 获取要过滤的房间
+// 	RoomObj.getDataFormBackground({type:"function",functionName:"getTreasureMsg"},treasureMsg);
+// }
 var robTreasure = new Object;
 if (robTreasure.data == undefined) {	//从 localStorage.RoomArr 获取要过滤的房间
 	RoomObj.getDataFormBackground({type:"function",functionName:"getRobTreasure"},robTreasure);
@@ -62,7 +62,7 @@ $(document).ready(function(){
 		getBoxInfo();
 		if ($("#treasure").css("display") == "block") {
 			window.clearInterval(treasureTimer);
-			setTimeout("RoomObj.sendMsg(treasureMsg.data)",8000);//听说发个弹幕,能提高中奖率
+			// setTimeout("RoomObj.sendMsg(treasureMsg.data)",8000);//听说发个弹幕,能提高中奖率
 			return;
 		}
 		treasureTimerIndex++;
@@ -80,3 +80,18 @@ function giftBatterBoxRemove() {
 	}
 	$("#js-shie-gift").remove();	//礼物特效
 };
+
+
+/*var arrLength = 0;
+//弹幕数组
+var msgArr = [];
+var dmTimer=setInterval(function(){	
+	msgArr = treasureMsg.data||[];
+	if (document.getElementsByClassName('cs-textarea')[0].value =="") {
+		if (arrLength >= msgArr.length) {
+			arrLength = 0;
+		}
+		RoomObj.sendMsg(msgArr[arrLength]);
+		arrLength++;
+	}	
+},15000);//30000毫秒就是30秒发一次*/

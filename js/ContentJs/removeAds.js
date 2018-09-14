@@ -11,6 +11,7 @@ function removeAds() {
 		delayInset();
 		removeMayBtnAd();
 		clearMediaBottom();	//清除视频下方 保留 竞猜
+		$(".catagory-order-content").remove();	//本周排行明细		
 		$("#foodBoom").remove();
 		$("#left").remove();	//左边侧栏
 		$("#t-adv-container").remove();	//视频内 广告

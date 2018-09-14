@@ -68,7 +68,7 @@ function time1Lesstime2(d1,d2)
 var dataFromIndexDb;
 Treasure.find = function(_s,_e){
 	_s=_s +"00:00:00";
-	_e=_e +"59:59:59";
+	_e=_e +"23:59:59";
 	dataFromIndexDb=[];
 	var objectStore = db.transaction('t_treasure').objectStore('t_treasure');
 	objectStore.openCursor().onsuccess = function (event) {

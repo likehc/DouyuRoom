@@ -91,4 +91,4 @@ self.setTimeout(function() {
 	roomId = roomObj.getRoomId();
 	if (roomId ==0) {return}
 	insertJsCss(ExtensionUrl+"js/InjectedJs/shotMsgVue.js");
-},3000);
+},6000);

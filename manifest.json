@@ -9,6 +9,7 @@
 	},
 	"content_scripts":[{
 		"js": [
+			// "js/Prototype/String.js",
 			"js/QuoteJs/jquery.min.js",
 			"js/ContentJs/RoomObj.js",
 			"js/ContentJs/injectionPageJs.js",
