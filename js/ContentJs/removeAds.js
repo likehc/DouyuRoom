@@ -24,7 +24,7 @@ function removeAds() {
 		$(".ft-sign-cont").remove();	//任务区,网页游戏推广
 		$(".bg-1a1f33").remove();	//亲密互动
 		$(".focus_box_con-0797e0").remove();	//视频里右下角“关注”按钮
-		$("div[data-component-id='view'][data-component-key='2']").remove(); //头部大幅广告
+		$("div[data-component-id='view'][data-component-key='1']").remove(); //头部大幅广告	
 		$(".live-room.clearfix").css("padding-top","0px");	//头部大幅广告
 		$(".QRcode").remove();	//视频内，二维码 游戏推广
 		$("#js-chat-notice").remove();	//弹幕公告
@@ -37,7 +37,8 @@ function removeAds() {
 		$("#dialog-more-video").remove();	//直播结束，自动跳转
 		$(".normalBg-dc300b").remove(); //亲密互动
 		$(".starsgathered").remove();	//排名动态
-
+		$("#js-annual1809").remove();	//2018斗鱼盛典
+		
 
 		$(".showdanmu-f76338").click();	//关闭弹幕
 		removeAdsIndex++;

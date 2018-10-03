@@ -17,8 +17,11 @@ function RoomObj() {
 				}
 			}
 			var roomUrl = $("link[rel='canonical']")[0].href;
-			var roomUrlArr = roomUrl.split("/");
-			return roomUrlArr[3];
+			var roomUrlArr = roomUrl.split("/");			
+			if (RoomObj.isRealNum(roomUrlArr[3])) {
+				return roomUrlArr[3];
+			}
+			return document.getElementsByClassName("anchor-cover-wrap")[0].href.split("?").pop().split("=").pop();
 		}catch(err){
 			return 0;
 		}			
@@ -100,13 +103,16 @@ RoomObj.getEquationOfTime = function (t) {
 	var days=Math.floor(date3/(24*3600*1000));
 	var leave1=date3%(24*3600*1000);	//计算天数后剩余的毫秒数
 	var hours=Math.floor(leave1/(3600*1000));
-	hours = (days*24)+hours >=10 ? hours:"0"+hours;	//计算相差分钟数
+	hours = hours >=10 ? hours:"0"+hours;	//计算相差分钟数
 	var leave2=leave1%(3600*1000);	//计算小时数后剩余的毫秒数
 	var minutes=Math.floor(leave2/(60*1000));
 	minutes = minutes>=10 ? minutes:"0"+minutes;	//计算相差秒数
 	var leave3=leave2%(60*1000);	//计算分钟数后剩余的毫秒数
 	var seconds=Math.round(leave3/1000);
 	seconds = seconds>=10 ? seconds:"0"+seconds;
+	if (days>0) {		
+		return days +":"+ hours+":"+minutes+":"+seconds;
+	}
 	return hours+":"+minutes+":"+seconds;
 };
 
@@ -172,6 +178,18 @@ RoomObj.isBindFunction = function(dom,funcName) {
 			return true;	//绑定
 	}else{
 		return false;	//未绑定
+	}
+};
+
+RoomObj.isRealNum = function(n) {
+	// 把空串 空格 以及NUll 按照0来处理 
+	if(n === "" || n ==null){
+		return false;
+	}
+	if(!isNaN(n)){
+		return true;
+	}else{
+		return false;
 	}
 };
 

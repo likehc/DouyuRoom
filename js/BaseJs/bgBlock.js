@@ -21,7 +21,7 @@ var blockUrls =[
 	"https://shark.douyucdn.cn/app/douyu/res/com/*.jpg?*",	//斗鱼公会
 	"https://shark.douyucdn.cn//app/douyu/res/page/room-normal/clientdown/*.png?*",	//客户端下载页图片
 	"https://hm.baidu.com/hm*",	//百度代码统计	
-	"https://ucp.douyucdn.cn/ucp.do",
+	// "https://ucp.douyucdn.cn/ucp.do",
 ];
 var callback =function(details){
 	//v8.352

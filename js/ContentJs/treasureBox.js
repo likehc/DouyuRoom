@@ -53,7 +53,7 @@ function doTreasure() {
 var treasureTimerIndex =0;
 $(document).ready(function(){
 	var treasureTimer=setInterval(function(){
-		if (treasureTimerIndex>=5) {
+		if (treasureTimerIndex>=20) {
 			window.clearInterval(treasureTimer);
 			if (roomId =="") {return}
 			return;
@@ -78,7 +78,7 @@ function giftBatterBoxRemove() {
 	if ($("#shie-switch").attr("data-shield-status") !=1) {
 		$("#shie-switch").click();
 	}
-	$("#js-shie-gift").remove();	//礼物特效
+	$("#js-shie-gift").hide();	//礼物特效
 };
 
 

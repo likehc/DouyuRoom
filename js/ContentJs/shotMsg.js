@@ -16,9 +16,10 @@ $(document).ready(function(){
 var shotMsgIndex =0;
 var roomId=0;
 function shotMsg_Start() {
-	roomId = roomObj.getRoomId();
-	if (roomId ==0) {return}
+	
 	var timershotMsg=self.setInterval(function(){
+		roomId = roomObj.getRoomId();
+		if (roomId ==0) {return}
 		if (shotMsgIndex>=10) {
 			window.clearInterval(timershotMsg);
 			return;
