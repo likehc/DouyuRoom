@@ -4,19 +4,12 @@ insertJsCss(ExtensionUrl+"css/shotmsg.css","css");
 insertJsCss(ExtensionUrl+"node_modules/element-ui/lib/theme-chalk/index.css","css");
 insertJsCss(ExtensionUrl+"node_modules/vue.js");
 insertJsCss(ExtensionUrl+"node_modules/element-ui/lib/index.js");
-insertJsCss(ExtensionUrl+"js/QuoteJs/jquery-ui.min.js");
-// insertJsCss("https://unpkg.com/element-ui/lib/theme-chalk/index.css","css")
-// insertJsCss("https://unpkg.com/vue/dist/vue.js")
-// insertJsCss("https://unpkg.com/element-ui/lib/index.js")
-
-$(document).ready(function(){
-	shotMsg_Start();
-});
-
+insertJs(ExtensionUrl+"js/QuoteJs/jquery.min.js",5000);
+// inserjQuery(ExtensionUrl+"js/QuoteJs/jquery.min.js",5000);
+insertJs(ExtensionUrl+"js/QuoteJs/jquery-ui.min.js",5500);
 var shotMsgIndex =0;
 var roomId=0;
-function shotMsg_Start() {
-	
+function shotMsg_Start() {	
 	var timershotMsg=self.setInterval(function(){
 		roomId = roomObj.getRoomId();
 		if (roomId ==0) {return}
@@ -26,12 +19,12 @@ function shotMsg_Start() {
 		}
 		createShotMsgDiv();
 		shotMsgIndex++;
-	},1000);
+	},800);
 };
 
 function createShotMsgDiv() {
 	var shotMsgId =document.getElementsByClassName("shotMsg");
-	var shieGiftFr= document.getElementsByClassName("shie-gift fr");
+	var shieGiftFr= document.getElementsByClassName("ChatToolBar");
 	if (shotMsgId.length<=0  && shieGiftFr.length>0) {
 		var shotDiv =document.createElement("div");
 		shotDiv.setAttribute("class","shotMsg");
@@ -51,13 +44,13 @@ function createShotMsgDiv() {
 		shotDiv.appendChild(input);
 		shieGiftFr[0].appendChild(shotDiv);
 		var timeInd = null;
-		$('.cs-textarea').click(function() {
+		$('.ChatSend-txt').click(function() {
 			clearTimeout(timeInd);
 			timeInd = setTimeout(function(){
 					//do click function
 				},150);
 		});
-		$('.cs-textarea').dblclick(function() {
+		$('.ChatSend-txt').dblclick(function() {
 			clearTimeout(timeInd);
 			var div = $("#shotMsg");
 			if (div.is(":hidden")) {
@@ -68,7 +61,6 @@ function createShotMsgDiv() {
 		});
 	}
 };
-
 
 function insertJsCss(filePath,isCss) {
 	var hm;
@@ -86,6 +78,31 @@ function insertJsCss(filePath,isCss) {
 	var s = document.getElementsByTagName("title")[0]; 
 	s.parentNode.insertBefore(hm, s);	
 };
+function insertJs(filePath,time) {
+	setTimeout(function() {
+		var hm;
+		hm = document.createElement("script");
+		hm.setAttribute("type","text/javascript");
+		hm.src = filePath;
+		var s = document.getElementsByTagName("title")[0]; 
+		s.parentNode.insertBefore(hm, s);
+	}, time);
+};
+function inserjQuery(filePath,time) {
+	setTimeout(function() {
+		var hm;
+		hm = document.createElement("script");
+		hm.setAttribute("type","text/javascript");
+		hm.src = filePath;
+		var s = document.getElementsByTagName("title")[0]; 
+		s.parentNode.insertBefore(hm, s);
+		// setTimeout(function() {
+		// 	jQuery.noConflict();
+		// 	jQuery(document).ready(function ($){
+		// 	});
+		// },100);
+	}, time);
+};
 
 //防止 vue.js没有加载完毕，
 self.setTimeout(function() {
@@ -93,3 +110,7 @@ self.setTimeout(function() {
 	if (roomId ==0) {return}
 	insertJsCss(ExtensionUrl+"js/InjectedJs/shotMsgVue.js");
 },6000);
+
+$(document).ready(function(){
+	shotMsg_Start();
+});

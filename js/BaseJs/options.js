@@ -32,7 +32,7 @@ document.getElementById("output").onclick = function(){
 		}		
 	}
 	var blob = new Blob([content], {type: "text/plain;charset=utf-8"});
-	saveAs(blob, "confg.txt");
+	saveAs(blob, "config.txt");
 };
 
 document.getElementById("treasurebtn").onclick = function(){

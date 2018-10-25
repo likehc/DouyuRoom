@@ -12,8 +12,8 @@ var pageObj;
 * 	发送弹幕
 */
 PageObj.sendMsg = function (s) {
-	document.getElementsByClassName('cs-textarea')[0].value = s;
-	document.getElementsByClassName('b-btn')[0].click();
+	document.getElementsByClassName('ChatSend-txt')[0].value = s;
+	document.getElementsByClassName('ChatSend-button')[0].click();
 }
 PageObj.setLocalStorage = function(key,value) {
 	localStorage[key]=value;
@@ -34,12 +34,16 @@ PageObj.isBindFunction=function(dom,funcName) {
 //onmessage接收
 PageObj.insertData=function(_data) {
 	try{
-		_data.uid =window.$SYS.uid;
+		// _data.uid =window.$SYS.uid;
+		// _data.uid = $("img[class='Avatar-img']").getAttribute("uid");
+		_data.uid = document.getElementsByClassName("Avatar-img")[0].getAttribute("uid");
 	}catch(err){
 		_data.uid =0;
 	}
 	console.log(_data);
-	window.postMessage({"insertSql": _data}, '*');
+	setTimeout(function() {
+		window.postMessage({"insertSql": _data}, '*');
+	}, 500);
 };
 
 PageObj.delayRun=function(t) {

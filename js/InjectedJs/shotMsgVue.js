@@ -142,38 +142,46 @@ function bindTagSave() {
 	}
 };
 
-document.getElementById('inputTag').addEventListener('keydown',function(e){
-	if(e.keyCode!=13){
-		return;
-	}else{
-		var inputTag =$("#inputTag");
-		for (var d = 0; d < shotMsg.tags.length; d++) {
-			if (inputTag.val().trim()=="") {
-				shotMsg.$message("条目名不能为空！");
+function inputTagEvent() {
+	if (document.getElementById('inputTag') !=null) {
+		document.getElementById('inputTag').addEventListener('keydown',function(e){
+			if(e.keyCode!=13){
+				return;
+			}else{
+				var inputTag =$("#inputTag");
+				for (var d = 0; d < shotMsg.tags.length; d++) {
+					if (inputTag.val().trim()=="") {
+						shotMsg.$message("条目名不能为空！");
+						e.preventDefault();
+						this.value += '';
+						return;
+					}
+					if (shotMsg.tags[d].name.trim() == inputTag.val().trim()) {
+						shotMsg.$message("此条目已存在！")
+						e.preventDefault();
+						this.value += '';
+						return;
+					}
+				}
+				saveTags(inputTag.val());
+				var newTag=getTagType(inputTag.val(),$("#tags .el-tag").length);
+				shotMsg.tags.push(newTag);
+				inputTag.val("");
+				setTimeout(function(){
+					$('#shotMsg').scrollTop($('#shotMsg')[0].scrollHeight);	
+				},0);
 				e.preventDefault();
 				this.value += '';
-				return;
 			}
-			if (shotMsg.tags[d].name.trim() == inputTag.val().trim()) {
-				shotMsg.$message("此条目已存在！")
-				e.preventDefault();
-				this.value += '';
-				return;
-			}
-		}
-		saveTags(inputTag.val());
-		var newTag=getTagType(inputTag.val(),$("#tags .el-tag").length);
-		shotMsg.tags.push(newTag);
-		inputTag.val("");
-		setTimeout(function(){
-			$('#shotMsg').scrollTop($('#shotMsg')[0].scrollHeight);	
-		},0);
-		e.preventDefault();
-		this.value += '';
-	}	
-});
-$(function() {
-	initializeTag();
-	bindTagSave();
-	
+		});
+	};
+};
+
+
+$(function() {	
+	setTimeout(function() {
+		inputTagEvent()
+		initializeTag();
+		bindTagSave();
+	}, 1000);
 });

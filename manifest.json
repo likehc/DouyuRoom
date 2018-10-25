@@ -21,7 +21,7 @@
 			"js/ContentJs/shotMsg.js"
 		],	//要注入的js
 		"matches": ["https://www.douyu.com/*","http://www.douyu.com/*"],	//满足这里的页面方能注入js
-		// "run_at": "document_start", // 不能设置为document_start，页面好多元素没加载完毕
+		// "run_at": "document_end", // 不能设置为document_start，页面好多元素没加载完毕
 		"all_frames":true
 	}],
 	"permissions": [

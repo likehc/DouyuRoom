@@ -1,30 +1,29 @@
-if (document.getElementsByClassName("backpack-btn").length>0) {
-	document.getElementsByClassName("backpack-btn")[0].onclick = function(){
-		insertSendGifts();
-	};
-}
-
 function insertSendGifts() {
 	setTimeout(function () {
 		if ($("#giftsSpan").length<=0) {
 			var giftsSpan =document.createElement("span");
 			giftsSpan.innerHTML='<a style="font-weight:bold" href="javascript:;" id="giftsSpan" class="giftsSpan">礼物连送</a>';
-			var btnClose =document.getElementsByClassName("btn close");
-			var con = btnClose[0].getElementsByTagName("span");
-			btnClose[0].insertBefore(giftsSpan,con[0]);
-			document.getElementsByClassName("giftsSpan")[0].onclick = function(){
-				createGiftTab();
-			}
-		}		
+			var btnClose =document.getElementsByClassName("Backpack-closeButton");
+			if (btnClose.length>0) {
+				var con = btnClose[0].getElementsByTagName("span");
+				btnClose[0].insertBefore(giftsSpan,con[0]);
+				document.getElementsByClassName("giftsSpan")[0].onclick = function(){
+					createGiftTab();
+					setTimeout(function() {
+						giftsTab.giftTableData=giftTableData;					
+					},800)
+				}
+			}			
+		}
+		getGiftinfo();
 	},300);
 };
 
-var giftsTab;
 function createGiftTab() {
 	var giftsDiv =document.createElement("div");
 	if ($("#giftsT").length<=0) {
-		document.getElementsByClassName("uinfo-ywyc")[0].appendChild(giftsDiv);
-		giftsDiv.outerHTML=`<div id="giftsT" class="backpack">
+		document.getElementsByClassName("BackpackWrapper")[0].appendChild(giftsDiv);
+		giftsDiv.outerHTML=`<div id="giftsT" class="Backpack">
 		<div><i id ="giftsTabClose" class="el-icon-circle-close-outline">关闭</i></div>
 		<template>
 		  <el-table :data="giftTableData" height="350" border style="width: 98%">	    
@@ -163,7 +162,7 @@ function getGiftsTabVue() {
 			
 		}
 	});
-	getGiftinfo();
+	// getGiftinfo();
 	document.getElementById("giftsTabClose").onclick = function(){
 		$('#giftsT').remove();
 	};
@@ -180,12 +179,13 @@ async function myNotify(title,style,msg) {
 	});
 }
 function sendGiftById(id) {	
-	$('li[class=" prop effect"][data-giftid="'+id+'"]').click();
+	// $('li[class=" prop effect"][data-giftid="'+id+'"]').click();
+	$('li[class="Backpack-prop prop is-effect "][data-giftid="'+id+'"]').click()
 }
 var giftTableData;
 function getGiftinfo() {
 	giftTableData=[];
-	var giftArr =$('li[class=" prop effect"]');
+	var giftArr =$('li[class="Backpack-prop prop is-effect "]')
 	for (var a = 0; a < giftArr.length; a++) {
 		var id =giftArr[a].getAttribute("data-giftid");
 		var giftName=getNameById(id);
@@ -194,8 +194,7 @@ function getGiftinfo() {
 		if (giftName !="") {
 			giftTableData.push({checked:false,giftId:id,giftName:giftName,pic:picSrc,haveNum:giftNum,sendNum:0});
 		}
-	}
-	giftsTab.giftTableData=giftTableData;
+	}	
 };
 function getNameById(id) {
 	var result="";
@@ -239,3 +238,21 @@ function getNameById(id) {
 	}
 	return result;
 };
+
+// $(document).ready(function(){
+// 	if (document.getElementsByClassName("BackpackButton").length>0) {
+// 		document.getElementsByClassName("BackpackButton")[0].onclick = function(){
+// 			insertSendGifts();
+// 		};
+// 	}
+// });
+
+
+
+setTimeout(function() {
+	if (document.getElementsByClassName("BackpackButton").length>0) {
+		document.getElementsByClassName("BackpackButton")[0].onclick = function(){
+			insertSendGifts();			
+		};
+	};
+}, 5000)

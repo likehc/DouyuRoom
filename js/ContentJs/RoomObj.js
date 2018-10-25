@@ -18,7 +18,7 @@ function RoomObj() {
 			}
 			var roomUrl = $("link[rel='canonical']")[0].href;
 			var roomUrlArr = roomUrl.split("/");			
-			if (RoomObj.isRealNum(roomUrlArr[3])) {
+			if (RoomObj.isRealNum(roomUrlArr[3]) &&roomUrlArr[3].length>4) {
 				return roomUrlArr[3];
 			}
 			return document.getElementsByClassName("anchor-cover-wrap")[0].href.split("?").pop().split("=").pop();
@@ -29,7 +29,10 @@ function RoomObj() {
 	//点击"未佩戴"
 	this.removePaiZi=function () {
 		try{
-			if (document.getElementsByClassName("radiobox").length<=0 ) {
+			// $(".FansMedalPanel-selectIcon")[$(".FansMedalPanel-selectIcon").length-1].click()
+			var fansMedal =document.getElementsByClassName("FansMedalPanel-selectIcon");
+			fansMedal[fansMedal.length-1].click();
+			/*if (document.getElementsByClassName("radiobox").length<=0 ) {
 				var label =document.createElement("label");
 				label.setAttribute("class","radiobox");
 				var fansHasDiv =document.createElement("div");
@@ -50,40 +53,28 @@ function RoomObj() {
 				document.getElementsByClassName("fans-entrance")[0].appendChild(contentDiv);  
 			}
 			document.getElementsByClassName("radiobox")[document.getElementsByClassName("radiobox").length-1].click();
-			document.getElementById("tempRemovePaizi").remove();
+			document.getElementById("tempRemovePaizi").remove();*/
 		}catch(err){			
 		}		
 	};
 	//点击相应的牌子
-	this.addPaiZi=function (roomId) {
+	this.addPaiZi=function() {
 		try{
-			var a =document.createElement("a");
-			a.setAttribute("href","javascript:;");
-			a.setAttribute("data-flag","medal-get-use");
-			a.setAttribute("data-medal-rid",roomId);
-			a.setAttribute("class","adornbtn");
-			var p =document.createElement("p");
-			p.appendChild(a);
-			var tipswrapDiv =document.createElement("div");
-			tipswrapDiv.setAttribute("id","tempAddPaizi");
-			tipswrapDiv.setAttribute("class","entrance-tipswrap");
-			tipswrapDiv.setAttribute("data-action","medal-tip-warp");
-			tipswrapDiv.setAttribute("data-tip-type","ownerRoomMedalRemain");
-			tipswrapDiv.setAttribute("style","display: block;");
-			tipswrapDiv.appendChild(p);
-			document.getElementsByClassName("fans-entrance")[0].appendChild(tipswrapDiv);
-			document.getElementsByClassName("adornbtn")[0].click();
-			document.getElementById("tempAddPaizi").remove();
+			var fansMedalInfo =document.getElementsByClassName("FansMedalInfo-notCurMedal");
+			if (fansMedalInfo.length==0) {//有该房间徽章
+				var fansMedal =document.getElementsByClassName("FansMedalPanel-selectIcon");
+				fansMedal[0].click();
+				
+			}
 		}catch(err){
-			// class ="fans-entrance" ,没有加载完毕时,会出错
 		}
 	};
 	//设置弹幕颜色
 	this.setDanMuYanSe=function () {
-		var danmuYs = $(".fans-barrage-list.clearfix li");
+		var danmuYs = $(".FansBarrageColor li");
 		for (var i = danmuYs.length - 1; i >= 0; i--) {
 			var liClass = danmuYs[i].getAttribute("class");
-			if (liClass == null||liClass.indexOf("fans-barrage-lock") ==-1) {
+			if (liClass == null||liClass.indexOf("is-lock") ==-1) {
 				var divClass = danmuYs[i].childNodes[0].getAttribute("class");
 				document.getElementsByClassName(divClass)[0].click();
 				break;
@@ -128,8 +119,8 @@ RoomObj.sendMsg = function (s) {
 			s = s+".";
 		}
 	}
-	document.getElementsByClassName('cs-textarea')[0].value = s;
-	document.getElementsByClassName('b-btn')[0].click();
+	document.getElementsByClassName('ChatSend-txt')[0].value = s;
+	document.getElementsByClassName('ChatSend-button')[0].click();
 	roomObjLastMsg = s;
 };
 //在页面插入js 或css ，当插入Css时，请确保isCss值为"css"
