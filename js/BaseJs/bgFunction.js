@@ -101,6 +101,7 @@ function insertSql(_data) {
 				ws = new WebSocket("ws://localhost:8787");
 				ws.onopen = function(){
 					ws.send("insertSql##yhc##"+JSON.stringify(_data));
+					console.log("insertSql##yhc##"+JSON.stringify(_data));
 					return "inserted!";	
 				};
 			}else{
@@ -294,19 +295,6 @@ chrome.tabs.onActivated.addListener(function(activeInfo){
 
 
 function showMsg(t) {
-/*	var msg =t.roomId +"房间领取 '"+ t.src_nick+"'";
-	if (t.award_type ==1) {
-		msg =msg + "的 火箭 宝箱";
-	}
-	if(t.award_type ==2) {
-		msg =msg + "的 飞机 宝箱";
-	}
-	if (t.silver !="") {
-		msg = msg + t.silver+"个鱼丸.";
-	}
-	if (t.prop_count !="") {
-		msg = msg + t.prop_count+ "个稳.";
-	}*/
 	var tTime = t.time.split(" ")[0];
 	var nowDate = formatDateTime(new Date()).split(" ")[0];
 	var treasureInfo;

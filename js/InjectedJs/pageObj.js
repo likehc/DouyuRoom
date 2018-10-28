@@ -46,6 +46,16 @@ PageObj.insertData=function(_data) {
 	}, 500);
 };
 
+PageObj.getUid=function() {
+	var result =0;
+	try{
+		result =document.getElementsByClassName("Avatar-img")[0].getAttribute("uid");
+	}catch(err){
+	}
+	return result;
+};
+
+
 PageObj.delayRun=function(t) {
 	setTimeout(function () {
 		

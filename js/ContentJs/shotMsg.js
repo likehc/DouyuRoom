@@ -11,6 +11,10 @@ var shotMsgIndex =0;
 var roomId=0;
 function shotMsg_Start() {	
 	var timershotMsg=self.setInterval(function(){
+		if (document.getElementsByClassName("shotMsg").length>0) {
+			window.clearInterval(timershotMsg);
+			return;
+		}
 		roomId = roomObj.getRoomId();
 		if (roomId ==0) {return}
 		if (shotMsgIndex>=10) {

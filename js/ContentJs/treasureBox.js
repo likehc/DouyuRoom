@@ -28,9 +28,9 @@ function getBoxInfo() {
 						geetest_popup_box.css("width","347px");
 					}
 				}else{
-					if (robTreasure.data == 1) {
-						window.close();
-					}
+					// if (robTreasure.data == 1 ) {
+					// 	window.close();
+					// }
 				}
 			},800);
 		}
@@ -42,10 +42,10 @@ function doTreasure() {
 
 	giftBatterBoxRemove();
 	//HTML5 播放器▽▽▽	
-	
+	$("#__video").remove() 	///html5
 	//HTML5 播放器△△△
 	//flash 播放器▽▽▽
-	
+	$(".room-Player").remove();
 	//flash 播放器△△△
 }
 
@@ -63,12 +63,70 @@ $(document).ready(function(){
 			window.clearInterval(treasureTimer);
 			if (roomId =="") {return}
 			return;
-		}		
-		getBoxInfo();
-		// if ($("#treasure").css("display") == "block") {
-		// 	window.clearInterval(treasureTimer);
-		// 	// setTimeout("RoomObj.sendMsg(treasureMsg.data)",8000);//听说发个弹幕,能提高中奖率
-		// 	return;
-		// }		
+		}
+		var treasureDetail=$(".TreasureDetail");
+		if (treasureDetail.length>0) {
+			getBoxInfo();
+			sendTreasure();
+			window.clearInterval(treasureTimer);
+			return;
+		}
 	},1000);
 });
+
+function TreasureBox() {
+	this.code = "";
+	this.validate = "";
+	this.msg="";
+	this.award_type="2";
+	this.src_nick="";
+	this.silver="";
+	this.silver_balance="";
+	this.prop_name="";
+	this.prop_count="";
+	this.prop_id="";
+	this.gt="";
+	this.lk="";
+	this.lt="";
+	this.time="2018-09-01 05:23:20";
+	this.roomId="";
+	this.uid="";
+};
+
+
+var yanchiIndex=0;
+function sendTreasure() {
+var sendTreasureTimer = setInterval(function() {
+		var t =$(".TreasureResult-content .TreasureResult-name");	
+		if ($(".Treasure").length<=0 && t.length <=0) {
+			if (robTreasure.data == 1) {
+				window.close();
+			}
+		}
+		if (yanchiIndex <=3) {
+			yanchiIndex++;
+			return;
+		}
+		var treasure = new TreasureBox();
+		if (t.length==2) {
+			treasure.award_type="2";
+			treasure.src_nick = t[0].textContent;
+			var sArr = t[1].textContent.split("个");
+
+			if (sArr[1] == "鱼丸") {			
+				treasure.silver=sArr[0];
+			}
+			if (sArr[1] == "稳") {
+				treasure.prop_count=sArr[0];
+			}
+			if (sArr[1] == "赞") {
+				treasure.prop_count=sArr[0];
+			}
+			treasure.uid=RoomObj.getUid();
+			treasure.time=RoomObj.getTime();
+			// console.log(treasure);
+			RoomObj.insertData(treasure);
+			yanchiIndex=0;
+		}	
+	}, 1000);
+}

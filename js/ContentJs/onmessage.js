@@ -27,12 +27,18 @@ onmessage.getSomething = function () {
 //接收 window.postMessage({"insertSql": _data}, '*'); 类型的消息
 window.addEventListener("message", function(e)
 {
-	if (e.data.hasOwnProperty("insertSql") ) {
-		var data = e.data.insertSql;
-		data.roomId = roomObj.getRoomId();
-		data.time = RoomObj.formatDateTime(new Date());
-		RoomObj.getDataFormBackground({type:"function",functionName:"insertSql",data});
+	try{
+		if (e.data.hasOwnProperty("insertSql") ) {
+			var data = e.data.insertSql;
+			data.roomId = roomObj.getRoomId();
+			data.time = RoomObj.formatDateTime(new Date());
+			console.log(data);
+			RoomObj.getDataFormBackground({type:"function",functionName:"insertSql",data});
+		}
+	}catch(err){
+		console.log(err);
 	}
+	
 }, false);
 
 //延迟省,发送 扩展 id

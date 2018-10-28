@@ -3,7 +3,7 @@ var roomId=0;
 var roomInfo="";
 function removeAds() {
 	var removeAdsTimer=self.setInterval(function(){		
-		if (removeAdsIndex>=30) {
+		if (removeAdsIndex>=10) {
 			window.clearInterval(removeAdsTimer);
 			return;
 		}
@@ -35,8 +35,9 @@ function removeAds() {
 		$(".ToolbarActivityArea").remove();		//打页游戏,领鱼丸
 		$(".bg-d4758b").remove();		//亲密互动
 		$(".focus_box_con-7adc83").remove();	//小桃心关注
+		$("#js-room-activity").remove();	//弹幕右侧悬浮广告
 		
-	},600);
+	},800);
 };
 
 var isPause =false;
