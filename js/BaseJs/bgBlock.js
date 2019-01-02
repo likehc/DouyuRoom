@@ -1,7 +1,9 @@
 // https://rpic.douyucdn.cn/asrpic/*.jpg // 房间外显图片一定别阻止
 var blockUrls =[
-	// "https://sta-op.douyucdn.cn/front-publish/live-master/js/room/common_*",
-	// "https://api.geetest.com/ajax.php?gt=*",//打码平台
+	// "https://sta-op.douyucdn.cn/front-publish/live-master/js/room/common_*.js",	//宝箱验证
+	// "https://msgstatic.douyucdn.cn/dist/build-*.js",
+	// "https://sta-op.douyucdn.cn/front-publish/live-master/js/room/playerAside_*.js",	//宝箱验证	
+	"https://api.geetest.com/get.php?gt=*",//打码平台
 
 	"https://sta-op.douyucdn.cn/nggsys/*.jpg",	// 视频框内游戏推广	
 	"https://sta-op.douyucdn.cn/nggsys/*.png",	// 视频框内游戏推广
@@ -17,19 +19,26 @@ var blockUrls =[
 	"https://shark.douyucdn.cn/app/douyu/res/com/*.jpg?*",	//斗鱼公会
 	"https://shark.douyucdn.cn//app/douyu/res/page/room-normal/clientdown/*.png?*",	//客户端下载页图片
 	"https://hm.baidu.com/hm*",	//百度代码统计	
+
 ];
 var callback =function(details){
-	// window.SHARK_LOADER_CONFIG.P4[0].url
+	//window.SHARK_LOADER_CONFIG.P4[0].url
 	// if (details.url.indexOf("https://sta-op.douyucdn.cn/front-publish/live-master/js/room/common_")>-1) {
-	// 	console.log(details.url);
-	// 	return {redirectUrl: chrome.extension.getURL("js/RedirectJs/common_954966b.js")};
+	// 	return {redirectUrl: chrome.extension.getURL("js/RedirectJs/common_ed96b4f.js")};
 	// }
-	// // 打码平台
-	// if (details.url.indexOf("https://api.geetest.com/ajax.php?gt=")>-1) {
-	// 	var s = getGtAndChallenge(details.url);
-	// 	console.log(s);
-	// 	return {cancel: false};
+	// if (details.url.indexOf("https://msgstatic.douyucdn.cn/dist/build-")>-1) {
+	// 	return {redirectUrl: chrome.extension.getURL("js/RedirectJs/build-dd50508.js")};
 	// }
+	//宝箱验证
+	// if (details.url.indexOf("https://sta-op.douyucdn.cn/front-publish/live-master/js/room/playerAside_")>-1) {
+	// 	return {redirectUrl: chrome.extension.getURL("js/RedirectJs/playerAside_dfa5c9b.js")};
+	// }
+	// 打码平台				"https://api.geetest.com/get.php?gt="
+	if (details.url.indexOf("https://api.geetest.com/get.php?gt=")>-1) {		
+		var s = getGtAndChallenge(details.url);
+		console.log(s);
+		return {cancel: false};
+	}
 
 	return {cancel: true};
 };
@@ -37,14 +46,14 @@ var filter = {urls:blockUrls};
 var opt_extraInfoSpec = ["blocking"];
 chrome.webRequest.onBeforeRequest.addListener(callback, filter, opt_extraInfoSpec);
 
-//打码平台
+//获取gt与challenge
 function getGtAndChallenge(_s) {
 	try{
 		var strArr = _s.split("&");
 		var gt = strArr[0].split("=")[1];
 		var challenge = strArr[1].split("=")[1];
-		return "gt="+gt+"&challenge="+challenge;		
+		return "gt="+gt+"&challenge="+challenge;
 	}catch(err){
 	}
 	return "can't get the gt&challenge";
-}
+};

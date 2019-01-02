@@ -4,7 +4,8 @@ insertJsCss(ExtensionUrl+"css/shotmsg.css","css");
 insertJsCss(ExtensionUrl+"node_modules/element-ui/lib/theme-chalk/index.css","css");
 insertJsCss(ExtensionUrl+"node_modules/vue.js");
 insertJsCss(ExtensionUrl+"node_modules/element-ui/lib/index.js");
-insertJs(ExtensionUrl+"js/QuoteJs/jquery.min.js",5000);
+// insertJs(ExtensionUrl+"js/QuoteJs/jquery.min.js",5000);
+
 // inserjQuery(ExtensionUrl+"js/QuoteJs/jquery.min.js",5000);
 insertJs(ExtensionUrl+"js/QuoteJs/jquery-ui.min.js",5500);
 var shotMsgIndex =0;
@@ -111,8 +112,8 @@ function inserjQuery(filePath,time) {
 //防止 vue.js没有加载完毕，
 self.setTimeout(function() {
 	roomId = roomObj.getRoomId();
-	if (roomId ==0) {return}
-	insertJsCss(ExtensionUrl+"js/InjectedJs/shotMsgVue.js");
+	if (roomId ==0) {return}		
+	// insertJsCss(ExtensionUrl+"js/InjectedJs/shotMsgVue.js");
 },6000);
 
 $(document).ready(function(){

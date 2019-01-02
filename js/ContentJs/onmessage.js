@@ -32,7 +32,6 @@ window.addEventListener("message", function(e)
 			var data = e.data.insertSql;
 			data.roomId = roomObj.getRoomId();
 			data.time = RoomObj.formatDateTime(new Date());
-			console.log(data);
 			RoomObj.getDataFormBackground({type:"function",functionName:"insertSql",data});
 		}
 	}catch(err){

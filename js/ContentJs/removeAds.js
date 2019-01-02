@@ -1,6 +1,7 @@
 var removeAdsIndex =0;
 var roomId=0;
 var roomInfo="";
+var roomBetard="";
 function removeAds() {
 	var removeAdsTimer=self.setInterval(function(){		
 		if (removeAdsIndex>=10) {
@@ -15,11 +16,6 @@ function removeAds() {
 		clearMediaBottom();	//清除视频下方 保留 竞猜
 		if($(".left-menu-small").length <=0){	//缩小左侧框
 			$(".AsideToggleButton").click();
-			// setTimeout(function() {
-			// 	if ($(".left-menu-small").length>0) {
-			// 		$(".layout-Aside").remove();	//移除左侧框
-			// 	}				
-			// }, 500);
 		}
 		if ($(".left-menu-small").length>0) {
 			$(".layout-Aside").remove();	//移除左侧框
@@ -36,6 +32,7 @@ function removeAds() {
 		$(".bg-d4758b").remove();		//亲密互动
 		$(".focus_box_con-7adc83").remove();	//小桃心关注
 		$("#js-room-activity").remove();	//弹幕右侧悬浮广告
+		$(".yuba-group-active").remove();	//定制房间鱼吧
 		
 	},800);
 };
@@ -55,8 +52,10 @@ function youhua() {
 		if ($(".pause-c594e8").length>0) {
 			$(".pause-c594e8").click();		//暂停
 			$(".pause-81a5c3").click();		//暂停
+			$(".pause-81a5c3").click();
 			$(".showdanmu-42b0ac").click();		 //弹幕关
 			$(".showdanmu-f76338").click();		//弹幕关
+			$(".showdanmu-f76338").click();
 			isPause = true;
 		}
 	}
@@ -137,6 +136,7 @@ function delayInset() {
 		a.innerHTML = "on";
 		if ($(".AnchorLike-ItemContent").text() =="") {
 			$("#js-bottom").hide();
+			$("#js-player-guessgame").hide(); 
 			a.innerHTML = "off";
 		}
 		a.setAttribute("style","font-weight:bold");
@@ -149,11 +149,12 @@ function delayInset() {
 				var roomAnnounce =$("#roomAnnounceId");
 				if (roomAnnounce.text() == "on") {
 					roomAnnounce.text("off");
-					$("#js-bottom").hide(); 
+					$("#js-bottom").hide(); 					
+					$("#js-player-guessgame").hide(); 
 				}else{
 					roomAnnounce.text("on");
 					$("#js-bottom").show(); 
-					
+					$("#js-player-guessgame").show(); 
 				}
 			};
 		}		
@@ -170,15 +171,48 @@ function getRoomInfo() {
 		roomInfo = roomObj.getRoomInfoById(roomId);
 	}
 	if (roomInfo !="") {
-		$(".YubaGroup-text").css("font-size","22px");
-		$(".YubaGroup-text").css("font-weight","bold");
+		$(".YubaGroup-text").css("font-size","18px");
+		$(".YubaGroup-text").css("font-weight","bold");	
 
 		if (roomInfo.data.room_status ==2) {	//1.开播 2.关播
 			$(".YubaGroup-text").text("尚未开播");
+			$(".text").text("尚未开播");
 		}else{
 			var t = RoomObj.getEquationOfTime(roomInfo.data.start_time);
 			$(".YubaGroup-text").text(t);
+			$(".text").text(t);
 			$(".Title-anchorPic").attr("title","开播时间:"+ roomInfo.data.start_time);
+			$(".anchor-pic.fl").attr("title","开播时间:"+ roomInfo.data.start_time);
+		}
+	}
+	if (roomBetard =="") {
+		roomBetard = roomObj.getBetardById(roomId);
+	}
+	if (roomBetard !="") {
+		try{
+			var anchorPic = document.getElementsByClassName("Title-anchorPic");
+			var creditDivFind = document.getElementsByClassName("creditDiv");
+			if(anchorPic.length >0 && creditDivFind.length <=0){
+				var creditDiv =document.createElement("div");
+				anchorPic[0].appendChild(creditDiv);
+				creditDiv.outerHTML =`<div class="creditDiv" style="font-size:24px; font-weight:bold; color:red;"></div>`;
+				var jiFen =JSON.parse(roomBetard.can_send_gift)["credit"];
+				document.getElementsByClassName("creditDiv")[0].innerText= "积分："+ jiFen;
+			}
+			var anchorPicFl = document.getElementsByClassName("anchor-pic fl");			
+			if(anchorPicFl.length >0 && creditDivFind.length <=0){
+				var creditDiv =document.createElement("div");
+				anchorPicFl[0].appendChild(creditDiv);
+				creditDiv.outerHTML =`<div class="creditDiv" style="position: absolute;font-size:24px;font-weight:bold;color:red;z-index: 9999;width: 110px;"></div>`;
+				var jiFen =JSON.parse(roomBetard.can_send_gift)["credit"];
+				document.getElementsByClassName("creditDiv")[0].innerText= "积分："+ jiFen;
+			}else{
+				var creditDiv= $(".creditDiv");
+				if (creditDiv.textContent=="") {
+					creditDiv.textContent=JSON.parse(roomBetard.can_send_gift)["credit"];
+				}
+			}
+		}catch(err){
 		}
 	}
 };
@@ -209,17 +243,50 @@ function clearMediaBottom(){
 
 
 function titleAnchorPicMouseenter() {
+	//普通房间
 	var anchorPic = $(".Title-anchorPic");
 	if (anchorPic.length>0 && roomInfo =="") {
 		$(".YubaGroup-cover").mouseenter(function(){
 			getRoomInfo();
 		});
+		$(".YubaGroup-cover").mouseleave(function(){
+			$(".creditDiv").remove();
+		});
+		
 	}
+	//定制房间
+	var anchorPic = $(".anchor-pic.fl");
+	if (anchorPic.length>0 && roomInfo =="") {
+		$(".anchor-pic.fl").mouseenter(function(){
+			getRoomInfo();
+		});
+		
+		$(".anchor-pic.fl").mouseleave(function(){
+			$(".creditDiv").remove();
+		});
+	}
+
+	
 };
 
 YubaGroupTimerIndex =0;
-$(document).ready(function(){
+var removeAdsTimer = self.setInterval(function (argument) {
+	YubaGroupTimerIndex++
+	if (YubaGroupTimerIndex >=15) {
+		window.clearInterval(removeAdsTimer);
+		return;
+	}
 	roomId = roomObj.getRoomId();
-	if (roomId ==0) {return}
-	removeAds();	
-});
+	if (roomId ==0) {
+		return;
+	}	
+	removeAds();
+
+}, 1000);
+
+
+// $(document).ready(function(){
+// 	roomId = roomObj.getRoomId();
+// 	if (roomId ==0) {return}
+// 	removeAds();	
+// });

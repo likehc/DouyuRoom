@@ -15,15 +15,18 @@ function getBoxInfo() {
 					window.close();
 				}*/
 				if ($(".Treasure").length>0) {
+					sendMsg("666");
 					var title = $(".TreasureStatus-text ").text();
 					document.title =title;
 					var geetest_popup_box =$(".geetest_popup_box");
+					//document.getElementById("treasure").click()  //鼠标要在宝箱上
 					if (title =="领取" && geetest_popup_box.length <=0 ) {
-						$(".TreasureStatus-text")[0].click();//点击领取
-						var geetest_radar_tip =$(".geetest_radar_tip");
+						
+						$(".TreasureStatus-text ")[0].click();//点击领取
+						/*var geetest_radar_tip =$(".geetest_radar_tip");
 						if(geetest_radar_tip.length>0){
 							geetest_radar_tip[0].click();//点击验证板	
-						}
+						}*/
 					}else{
 						geetest_popup_box.css("width","347px");
 					}
@@ -32,7 +35,7 @@ function getBoxInfo() {
 					// 	window.close();
 					// }
 				}
-			},800);
+			},200);
 		}
 	}catch(err){		
 	}
@@ -42,10 +45,10 @@ function doTreasure() {
 
 	giftBatterBoxRemove();
 	//HTML5 播放器▽▽▽	
-	$("#__video").remove() 	///html5
+	// $("#__video").remove(); 	///html5
 	//HTML5 播放器△△△
 	//flash 播放器▽▽▽
-	$(".room-Player").remove();
+	// $(".room-Player").remove();
 	//flash 播放器△△△
 }
 
@@ -73,7 +76,6 @@ $(document).ready(function(){
 		}
 	},1000);
 });
-
 function TreasureBox() {
 	this.code = "";
 	this.validate = "";
@@ -92,23 +94,16 @@ function TreasureBox() {
 	this.roomId="";
 	this.uid="";
 };
-
-
 var yanchiIndex=0;
 function sendTreasure() {
 var sendTreasureTimer = setInterval(function() {
-		var t =$(".TreasureResult-content .TreasureResult-name");	
-		if ($(".Treasure").length<=0 && t.length <=0) {
-			if (robTreasure.data == 1) {
-				window.close();
-			}
-		}
+		var t =$(".TreasureResult-content .TreasureResult-name");		
 		if (yanchiIndex <=3) {
 			yanchiIndex++;
 			return;
-		}
-		var treasure = new TreasureBox();
+		}		
 		if (t.length==2) {
+			var treasure = new TreasureBox();
 			treasure.award_type="2";
 			treasure.src_nick = t[0].textContent;
 			var sArr = t[1].textContent.split("个");
@@ -127,6 +122,28 @@ var sendTreasureTimer = setInterval(function() {
 			// console.log(treasure);
 			RoomObj.insertData(treasure);
 			yanchiIndex=0;
-		}	
+		}
+		var treasureDetail=$(".TreasureDetail");
+		if ($(".Treasure").length<=0 && treasureDetail.length <=0) {
+			if (robTreasure.data == 1) {
+				window.close();
+			}
+		}
 	}, 1000);
-}
+};
+var msgIsSend = false;
+function sendMsg(s) {
+	if (msgIsSend) {
+		return;
+	}
+	var chatSendText= document.getElementsByClassName("ChatSend-txt");
+	if (chatSendText.length>0) {
+		setTimeout(function () {
+			document.getElementsByClassName('ChatSend-txt')[0].value =s;
+			document.getElementsByClassName('ChatSend-button')[0].click();
+			
+		}, 2000)
+		msgIsSend = true;
+	}
+	
+};

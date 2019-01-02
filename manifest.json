@@ -9,12 +9,12 @@
 	},
 	"content_scripts":[{
 		"js": [
-			// "js/Prototype/String.js",
 			"js/QuoteJs/jquery.min.js",
 			"js/ContentJs/RoomObj.js",
 			"js/ContentJs/injectionPageJs.js",
 			"js/ContentJs/onmessage.js",
 			"js/ContentJs/removeRoom.js",
+			// "js/ContentJs/guanzZhu.js",
 			"js/ContentJs/paizidanmu.js",
 			"js/ContentJs/removeAds.js",
 			"js/ContentJs/treasureBox.js",
@@ -34,6 +34,7 @@
 	],
 	"background": {
 		"scripts": [
+			"js/QuoteJs/jquery.min.js",
 			"js/BaseJs/bgBlock.js",
 			"js/BaseJs/bgFunction.js",
 			"js/BaseJs/bgMessage.js",

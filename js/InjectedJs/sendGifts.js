@@ -178,9 +178,8 @@ async function myNotify(title,style,msg) {
 		message: giftsTab.$createElement('i', style, msg)
 	});
 }
-function sendGiftById(id) {	
-	// $('li[class=" prop effect"][data-giftid="'+id+'"]').click();
-	$('li[class="Backpack-prop prop is-effect "][data-giftid="'+id+'"]').click()
+function sendGiftById(id) {
+	$('div[class="GiftItem"][data-giftid="'+id+'"]').click();
 }
 var giftTableData;
 function getGiftinfo() {
@@ -238,16 +237,6 @@ function getNameById(id) {
 	}
 	return result;
 };
-
-// $(document).ready(function(){
-// 	if (document.getElementsByClassName("BackpackButton").length>0) {
-// 		document.getElementsByClassName("BackpackButton")[0].onclick = function(){
-// 			insertSendGifts();
-// 		};
-// 	}
-// });
-
-
 
 setTimeout(function() {
 	if (document.getElementsByClassName("BackpackButton").length>0) {

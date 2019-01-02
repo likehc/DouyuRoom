@@ -7,7 +7,7 @@ $(document).ready(function(){
 			return;
 		}
 		try{
-			if ($(".FansMedalList-anchorName").length >0) {
+			if ($(".FansMedalList-anchorName").length >0 ||　$(".fans-entrance").length>0) {
 				roomObj.removePaiZi();
 				var ss = setTimeout("roomObj.addPaiZi();", 700);//与移除牌子设置下时间间隔
 				roomObj.setDanMuYanSe();
@@ -17,5 +17,5 @@ $(document).ready(function(){
 		}catch(err){
 
 		}
-	},2000);
+	},5000);
 });
